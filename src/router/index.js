@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/index'
+import Order from '@/components/order'
 
 Vue.use(Router)
 
@@ -12,8 +13,9 @@ export default new Router({
       component: Index
     },
     {
-      path: '/navbar',
-      name: 'NavBar',
+      path: '/order',
+      name: 'order',
+      component: Order
     }
   ]
 })

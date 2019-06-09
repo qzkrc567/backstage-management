@@ -4,6 +4,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
+import  VueResource  from 'vue-resource'
 
 import '../static/vendor/bootstrap/css/bootstrap.min.css'
 import '../static/vendor/font-awesome/css/font-awesome.min.css'
@@ -19,7 +22,9 @@ import $$$$ from "../static/vendor/jquery-easy-pie-chart/jquery-easypiechart.min
 import $$$$$ from "../static/vendor/chartist/js/chartist.min.js"
 import $$$$$$ from "../static/scripts/klorofil-common.js"
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.use(iView);
+Vue.use(VueResource)
 
 
 /* eslint-disable no-new */

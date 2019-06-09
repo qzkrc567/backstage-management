@@ -45,9 +45,9 @@
               <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>订单管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
               <div id="subPages" class="collapse ">
                 <ul class="nav">
-                  <li><router-link :to="{path:'/'}" class="">正常订单</router-link></li>
-                  <li><router-link :to="{path:'/'}" class="">异常订单</router-link></li>
-                  <li><router-link :to="{path:'/'}" class="">历史订单</router-link></li>
+                  <li><router-link :to="{path:'/order'}" class="">正常订单</router-link></li>
+                  <li><router-link :to="{path:'/order'}" class="">异常订单</router-link></li>
+                  <li><router-link :to="{path:'/order'}" class="">历史订单</router-link></li>
                 </ul>
               </div>
             </li>
