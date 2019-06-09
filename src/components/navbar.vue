@@ -5,9 +5,6 @@
         <router-link :to="{path:'/'}"><img src="../../static/img/logo-dark.png" alt="Klorofil Logo" class="img-responsive logo"></router-link>
       </div>
       <div class="container-fluid">
-        <div class="navbar-btn">
-          <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
-        </div>
         <div id="navbar-menu">
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
@@ -16,16 +13,15 @@
                 <span class="badge bg-danger">5</span>
               </a>
               <ul class="dropdown-menu notifications">
-                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
-                <li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>
-                <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>
-                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>
-                <li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
-                <li><a href="#" class="more">See all notifications</a></li>
+                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>有一条异常订单，请尽快处理</a></li>
+                <li><a href="#" class="notification-item"><span class="dot bg-danger"></span>有一条异常订单，请尽快处理</a></li>
+                <li><a href="#" class="notification-item"><span class="dot bg-success"></span>有一条异常订单，请尽快处理</a></li>
+                <li><a href="#" class="notification-item"><span class="dot bg-warning"></span>有一条异常订单，请尽快处理</a></li>
+                <li><a href="#" class="notification-item"><span class="dot bg-success"></span>有一条异常订单，请尽快处理</a></li>
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../static/img/user.png" class="img-circle" alt="Avatar"> <span>Samuel</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../static/img/user.png" class="img-circle" alt="Avatar"> <span>qzkrc567</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
               <ul class="dropdown-menu">
                 <li @click="info"><a><i class="lnr lnr-cog"></i> <span>个人资料</span></a></li>
                 <li @click="logout"><a><i class="lnr lnr-exit"></i> <span>退出登录</span></a></li>
@@ -45,9 +41,9 @@
               <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>订单管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
               <div id="subPages" class="collapse ">
                 <ul class="nav">
-                  <li><router-link :to="{path:'/order'}" class="">正常订单</router-link></li>
-                  <li><router-link :to="{path:'/order'}" class="">异常订单</router-link></li>
-                  <li><router-link :to="{path:'/order'}" class="">历史订单</router-link></li>
+                  <li><router-link :to="{path:'/order', query:{orderType: 'normal'}}" @click.native="refresh" class="">正常订单</router-link></li>
+                  <li><router-link :to="{path:'/order', query:{orderType: 'abnormal'}}" @click.native="refresh" class="">异常订单</router-link></li>
+                  <li><router-link :to="{path:'/order', query:{orderType: 'history'}}" @click.native="refresh" class="">历史订单</router-link></li>
                 </ul>
               </div>
             </li>
@@ -63,13 +59,19 @@
 
 <script>
   export default {
+    props:{
+
+    },
     methods:{
       logout(){
         console.log("logout")
       },
       info(){
         console.log("info")
-      }
+      },
+      refresh(){
+        this.$emit('refresh');
+      },
     }
   }
 </script>
