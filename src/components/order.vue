@@ -192,6 +192,9 @@
                     case "已完成":
                         return '订单完成';
                         break;
+                    case "异常":
+                        return '删除订单';
+                        break;
                 }
             },
             getTableData(){
