@@ -41,9 +41,9 @@
               <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>订单管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
               <div id="subPages" class="collapse ">
                 <ul class="nav">
-                  <li><router-link :to="{path:'/order', query:{orderType: 'normal'}}" @click.native="refresh" class="">正常订单</router-link></li>
-                  <li><router-link :to="{path:'/order', query:{orderType: 'abnormal'}}" @click.native="refresh" class="">异常订单</router-link></li>
-                  <li><router-link :to="{path:'/order', query:{orderType: 'history'}}" @click.native="refresh" class="">历史订单</router-link></li>
+                  <li><router-link :to="{path:'/order', query:{order_type: 'normal'}}" @click.native="refresh" class="">正常订单</router-link></li>
+                  <li><router-link :to="{path:'/order', query:{order_type: 'abnormal'}}" @click.native="refresh" class="">异常订单</router-link></li>
+                  <li><router-link :to="{path:'/order', query:{order_type: 'history'}}" @click.native="refresh" class="">历史订单</router-link></li>
                 </ul>
               </div>
             </li>
