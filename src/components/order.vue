@@ -21,7 +21,7 @@
                     <Button type="primary" @click="exportData(1)"><Icon type="ios-download-outline"></Icon>导出全部数据</Button>
                     <Button type="primary" @click="exportData(2)"><Icon type="ios-download-outline"></Icon>导出选择数据</Button>
                     <div style="float: right;vertical-align: center">
-                        <Page simple :total="100" :current="1" @on-change="changePage"></Page>
+                        <Page style="font-size: 10px" simple :total="this.order_count" :current="1" @on-change="changePage"></Page>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,8 @@
         name: 'HelloWorld',
         data () {
             return {
-                pageNum: 1,
+                page_num: 1,
+                order_count: 150,
                 dateRange: [],
                 orderType: this.$route.query.orderType,
                 searchContent1:'',
@@ -183,10 +184,11 @@
                 this.rows = this.initRows;
                 this.rows = this.searchDate(this.rows, this.dateRange)
             },
-            getTableData(pageNum){
-                this.$http.get("https://www.easy-mock.com/mock/5c833375e0e0f75c246237e4/example/mock",{params:{pageNum:pageNum}}).then(function (res) {
+            getTableData(page_num){
+                this.$http.get("https://www.easy-mock.com/mock/5c833375e0e0f75c246237e4/example/mock",{params:{page_num:page_num, order_type:this.$route.query.order_type}}).then(function (res) {
                     console.log(res)
                     this.rows = this.initRows = res.body.data;
+                    this.order_count = res.body.order_count;
                 },function (res) {
                     console.log(res)
                 })
