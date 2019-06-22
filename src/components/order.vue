@@ -197,10 +197,6 @@
             setSelectedData(selection){
               this.selectedData = selection
             },
-            remove (index) {
-                this.rows.splice(index, 1);
-                alert("remove")
-            },
             compareObject(obj1,obj2){
                 let  attrs1 = Object.keys(obj1);
                 let  attrs2 = Object.keys(obj2);
