@@ -38,6 +38,7 @@
         name: 'HelloWorld',
         data () {
             return {
+                pageNum: 1,
                 dateRange: [],
                 orderType: this.$route.query.orderType,
                 searchContent1:'',
@@ -126,7 +127,7 @@
             }
         },
         created(){
-            this.getTableData();
+            this.getTableData(1);
         },
         methods: {
             refresh(){
@@ -182,16 +183,16 @@
                 this.rows = this.initRows;
                 this.rows = this.searchDate(this.rows, this.dateRange)
             },
-            getTableData(){
-                this.$http.get("https://www.easy-mock.com/mock/5c833375e0e0f75c246237e4/example/mock").then(function (res) {
+            getTableData(pageNum){
+                this.$http.get("https://www.easy-mock.com/mock/5c833375e0e0f75c246237e4/example/mock",{params:{pageNum:pageNum}}).then(function (res) {
                     console.log(res)
                     this.rows = this.initRows = res.body.data;
                 },function (res) {
                     console.log(res)
                 })
             },
-            changePage(){
-                this.getTableData()
+            changePage(value){
+                this.getTableData(value)
             },
             setSelectedData(selection){
               this.selectedData = selection
