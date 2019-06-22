@@ -5,11 +5,12 @@
             <h2 style="margin: 1% 0 0 1%">订单管理</h2>
             <div style="margin: 3% 0 0 5%">
                 名称：
-                <Input style="width: 15%;margin-right: 5%" v-model="searchContent1" @on-change="handleSearch" placeholder="绑定名称搜索"/>
+                <Input style="width: 15%;margin-right: 5%" v-model="searchContent1" placeholder="绑定名称搜索"/>
                 手机号：
-                <Input style="width: 15%;margin-right: 5%" v-model="searchContent2" @on-change="handleSearch" placeholder="绑定手机号搜索"/>
+                <Input style="width: 15%;margin-right: 5%" v-model="searchContent2" placeholder="绑定手机号搜索"/>
                 时间：
-                <DatePicker confirm split-panels type="daterange" :value="dateRange" @on-change="dateRangeChange" placeholder="选择订单日期范围" style="width: 20%"></DatePicker>
+                <DatePicker confirm split-panels type="daterange" :value="dateRange" placeholder="选择订单日期范围" style="width: 20%"></DatePicker>
+                <Button style="margin-left: 5%" @click="searchOrders">搜索</Button>
             </div>
             <div style="margin: 0 4% 0 5%;margin-top: 2%">
                 <Table stripe border :columns="columns" :data="rows" ref="table" @on-selection-change="setSelectedData"></Table>
@@ -50,31 +51,45 @@
                     },
                     {
                         title: '订单编号',
-                        key: 'id',
+                        key: 'order_number',
                     },
                     {
-                        title: '用户姓名',
-                        key: 'name'
+                        title: '用户名称',
+                        key: 'client_name',
+                        width: 200
                     },
                     {
-                        title: '用户手机',
-                        key: 'tel'
+                        title: '货物名称',
+                        key: 'goods_name'
                     },
                     {
-                        title: (this.$route.query.orderType == 'normal')? '课程名称': '用户名称',
-                        key: 'company'
-                    },
-                    {
-                        title: '订单金额',
-                        key: 'money'
+                        title: '物流公司名称',
+                        key: 'express_company'
                     },
                     {
                         title: '订单状态',
-                        key: 'status'
+                        key: 'order_status',
+                        width: 85
                     },
                     {
-                        title: '提交时间',
-                        key: 'time'
+                        title: '实际价格',
+                        key: 'actual_price'
+                    },
+                    {
+                        title: '发货人区域',
+                        key: 'sender_area',
+                    },
+                    {
+                        title: '发货人姓名',
+                        key: 'sender_name',
+                    },
+                    {
+                        title: '收货人区域',
+                        key: 'receiver_area',
+                    },
+                    {
+                        title: '收货人姓名',
+                        key: 'receiver_name',
                     },
                     {
                         title: '操作',
@@ -96,23 +111,12 @@
                                             this.$router.push({
                                                 path:'/orderDetail',
                                                 query:{
-                                                    orderId: params.row.id
+                                                    order_number: params.row.order_number
                                                 }
                                             })
                                         }
                                     }
-                                }, '查看订单'),
-                                h('Button', {
-                                    props: {
-                                        type: 'success',
-                                        size: 'small'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.remove(params.index)
-                                        }
-                                    }
-                                }, this.buttonName(params.row.status))
+                                }, '查看订单')
                             ]);
                         }
                     }
@@ -140,6 +144,9 @@
                     }
                 }
                 return res;
+            },
+            searchOrders(){
+                alert("search")
             },
             dateCompare(str1, str2){
                 var a = str1.split('-');
@@ -175,28 +182,6 @@
                 this.rows = this.initRows;
                 this.rows = this.searchDate(this.rows, this.dateRange)
             },
-            buttonName(status){
-                switch (status) {
-                    case "待支付":
-                        return '取消订单';
-                        break;
-                    case "已关闭":
-                        return '删除订单';
-                        break;
-                    case "待确认":
-                        return '确认订单';
-                        break;
-                    case "学习中":
-                        return '结束课程';
-                        break;
-                    case "已完成":
-                        return '订单完成';
-                        break;
-                    case "异常":
-                        return '删除订单';
-                        break;
-                }
-            },
             getTableData(){
                 this.$http.get("https://www.easy-mock.com/mock/5c833375e0e0f75c246237e4/example/mock").then(function (res) {
                     console.log(res)
@@ -213,7 +198,7 @@
             },
             remove (index) {
                 this.rows.splice(index, 1);
-
+                alert("remove")
             },
             compareObject(obj1,obj2){
                 let  attrs1 = Object.keys(obj1);
