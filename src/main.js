@@ -22,10 +22,13 @@ import $$$$ from "../static/vendor/jquery-easy-pie-chart/jquery-easypiechart.min
 import $$$$$ from "../static/vendor/chartist/js/chartist.min.js"
 import $$$$$$ from "../static/scripts/klorofil-common.js"
 
+import ECharts from 'vue-echarts/components/ECharts'
+import 'echarts/lib/chart/line'
+Vue.component('chart', ECharts)
+
 Vue.config.productionTip = false;
 Vue.use(iView);
 Vue.use(VueResource)
-
 
 /* eslint-disable no-new */
 new Vue({
