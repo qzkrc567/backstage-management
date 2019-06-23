@@ -11,8 +11,7 @@
                     <option value="normal">普通用户</option>
                 </select>
                 输入搜索：
-                <input style="width: 15%;margin-right: 5%;display: inline-block;" type="text" class="form-control" placeholder="输入员工姓名或账号">
-                <Button style="margin-left: 5%" @click="searchOrders">搜索</Button>
+                <input style="width: 15%;margin-right: 5%;display: inline-block;" type="text" class="form-control" placeholder="输入员工姓名或账号" v-model="selectString">
             </div>
             <div style="margin: 0 4% 0 5%;margin-top: 2%">
                 <div class="row" style="margin-left:0px">
@@ -24,12 +23,13 @@
                     </div>
                 </div>
                 <div style="height:20px"></div>
-                <Table stripe border :columns="columns" :data="rows" ref="table" @on-selection-change="setSelectedData"></Table>
+                <Table stripe border :columns="columns" :data="showRows" ref="table" @on-selection-change="setSelectedData"></Table>
                 <br>
                 <div style="margin-bottom: 5%">
-                    <Button type="primary" @click="handleSelectAll()">全选</Button>
+                    <Button class="btn btn-primary" @click="handleSelectAll()">全选</Button>
+                    <Button class="btn btn-danger" @click="deleteSelected()">批量删除</Button>
                     <div style="float: right;vertical-align: center">
-                        <Page style="font-size: 10px" simple :total="this.worker_count" :current="1" @on-change="changePage"></Page>
+                        <Page style="font-size: 10px" simple :page-size="this.pageSize" :total="this.page_count" :current="1" @on-change="changePage"></Page>
                     </div>
                 </div>
             </div>
@@ -46,13 +46,12 @@
         name: 'AllWorkers',
         data () {
             return {
+                selectString:"",
                 selectType:'all',
+                pageSize:15,
                 selectAll:false,
                 page_num: 1,
                 worker_count: 150,
-                dateRange: [],
-                searchContent1: '',
-                searchContent2: '',
                 selectedData: [],
                 columns: [
                     {
@@ -134,85 +133,86 @@
                         }
                     }
                 ],
-                rows: [],
-                initRows: [],
+                allRows: [],
             }
         },
         created () {
-            this.getTableData(1);
+            this.getTableData();
         },
+        computed:{
+          page_count(){
+            return this.rows.length
+          },
+          rows(){
+              if(this.selectString=="" && this.selectType=="all"){
+                  return this.allRows
+              }
+              else{
+                  let list_res=[]
+                  if(this.selectType=="all"){
+                      this.allRows.forEach(item=>{
+                          let strNumber=""+item.number
+                          let strName=""+item.name
+                          if(strNumber.indexOf(this.selectString)!=-1 || strName.indexOf(this.selectString)!=-1){
+                              list_res.push(item)
+                          }
+                      })
+                  }
+                  else{
+                      this.allRows.forEach(item=>{
+                          var selectTypeStr="管理员"
+                          if(this.selectType=="admin"){
+                              selectTypeStr="管理员"
+                          }
+                          else{
+                              selectTypeStr="普通用户"
+                          }
+                          if(item.type==selectTypeStr){
+                              let strNumber=""+item.number
+                              let strName=""+item.name
+                              if(strNumber.indexOf(this.selectString)!=-1 || strName.indexOf(this.selectString)!=-1){
+                                  list_res.push(item)
+                              }
+                          }
+                      })
+                  }
+                  return list_res
+              }
+          },
+          showRows(){
+              return this.rows.slice((this.page_num-1)*this.pageSize,this.page_num*this.pageSize)
+          }
+        },
+
         methods: {
+            deleteSelected(){
+                if(this.selectedData.length===0){
+                    return
+                }
+                let list_delete_number=[]
+                this.selectedData.forEach(item=>{
+                    list_delete_number.push(item.number)
+                })
+                console.log(list_delete_number)
+                this.refresh()
+            },
             refresh () {
                 this.$router.go(0);
-            },
-            search (data, argumentObj) {
-                let res = data;
-                let dataClone = data;
-                for (let argu in argumentObj) {
-                    if (argumentObj[argu].length > 0) {
-                        res = dataClone.filter(d => {
-                            return d[argu].indexOf(argumentObj[argu]) > -1;
-                        });
-                        dataClone = res;
-                    }
-                }
-                return res;
             },
             deleteWorker(number){
                 alert(number)
             },
-            searchOrders () {
-                alert("search")
-            },
-            dateCompare (str1, str2) {
-                var a = str1.split('-');
-                var b = str2.split('-');
-                console.log(a, b)
-                if (a[0] < b[0]) return true;
-                else if (a[0] > b[0]) return false;
-                else {
-                    if (a[1] < b[1]) return true;
-                    else if (a[1] > b[1]) return false;
-                    else {
-                        if (a[2] <= b[2]) return true;
-                        else return false;
-                    }
-                }
-            },
-            searchDate (data, dateRange) {
-                let res = data;
-                console.log(dateRange)
-                if (dateRange[0] != "" && dateRange[1] != "")
-                    res = res.filter(d => {
-                        return this.dateCompare(dateRange[0], d['time']) && this.dateCompare(d['time'], dateRange[1])
-                    })
-                return res;
-            },
-            handleSearch () {
-                this.rows = this.initRows;
-                this.rows = this.search(this.rows, {'name': this.searchContent1, 'tel': this.searchContent2});
-            },
-            dateRangeChange (date) {
-                console.log(date);
-                this.dateRange = date;
-                this.rows = this.initRows;
-                this.rows = this.searchDate(this.rows, this.dateRange)
-            },
-            getTableData (page_num) {
-                this.$http.get("https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getAllWorkers", {
-                    params: {
-                        page_num: page_num,
-                    }
-                }).then(function (res) {
+            getTableData () {
+                this.$http.get("https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getAllWorkers",).then(function (res) {
                     console.log(res)
-                    this.rows = this.initRows = res.body.data;
+                    this.allRows = res.body.data;
                     this.worker_count = res.body.worker_count;
                 }, function (res) {
                     console.log(res)
                 })
             },
-            changePage (value) {
-                this.getTableData(value)
+            changePage (page_num) {
+                this.page_num=page_num
             },
             setSelectedData (selection) {
                 this.selectedData = selection

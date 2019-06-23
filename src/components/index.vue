@@ -122,7 +122,9 @@
               monthXAxis:[],
               weekXAxis:[],
               monthYData:[],
-              weekYData:[]
+              weekYData:[],
+              weekOptions:{},
+              monthOptions:{}
           }
       },
       created () {
@@ -131,15 +133,13 @@
           this.getMonthData()
           this.getWeekData()
       },
-      beforeUpdate(){
-          this.drawLine()
-      },
       methods: {
               getMonthData(){
                   this.$http.get("https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getMonthData").then(function (res) {
                       console.log(res)
                       this.monthXAxis = res.body.dateList;
                       this.monthYData = res.body.moneyList;
+                      this.drawLine()
                   }, function (res) {
                       console.log(res)
                   })
@@ -149,6 +149,7 @@
                       console.log(res)
                       this.weekXAxis = res.body.dateList;
                       this.weekYData = res.body.moneyList;
+                      this.drawLine()
                   }, function (res) {
                       console.log(res)
                   })
