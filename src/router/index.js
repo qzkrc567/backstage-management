@@ -7,6 +7,7 @@ import RuleImport from '@/components/ruleImport'
 import AccountInfo from '@/components/accountInfo'
 import AllWorkers from '@/components/allWorkers'
 import EditWorker from '@/components/editWorker'
+import Login from '@/components/login'
 
 Vue.use(Router)
 
@@ -42,6 +43,10 @@ export default new Router({
       {
           path:'/editWorker',
           component:EditWorker
+      },
+      {
+          path:'/login',
+          component: Login
       }
   ]
 })
