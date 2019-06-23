@@ -5,6 +5,7 @@ import Order from '@/components/order'
 import OrderDetail from '@/components/orderDetail'
 import RuleImport from '@/components/ruleImport'
 import AccountInfo from '@/components/accountInfo'
+import Login from '@/components/login'
 
 Vue.use(Router)
 
@@ -32,6 +33,10 @@ export default new Router({
       {
           path:'/accountInfo',
           component: AccountInfo
+      },
+      {
+          path:'/login',
+          component: Login
       }
   ]
 })
