@@ -42,11 +42,11 @@
                 class="vertical-center-modal">
                 <div class="modal-inline">
                     <label>
-                        <Input placeholder="upload" v-model="filename" clearable size="large" class="modal-input">
+                        <Input placeholder="选择文件..." v-model="filename" clearable size="large" class="modal-input">
                         </Input>
                     </label>
                     <label>
-                        <Upload :before-upload="handleUpload">
+                        <Upload action="https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/upload" :before-upload="handleUpload">
                             <Button class="btn-purple" size="large">
                                 <Icon class="ivu-icon-ios-funnel"></Icon>
                                 选择文件
@@ -55,8 +55,8 @@
                     </label>
                 </div>
                 <div style="margin-left: 33%">
-                    <Button class="btn-purple" style="margin-right: 20px;"  @click="upload" :loading="loadingStatus">确认</Button>
-                    <Button class="btn-cancel" style="margin-left: 20px;" @click="cancel">取消</Button>
+                    <Button class="btn-confirm" @click="upload" :loading="loadingStatus">确认</Button>
+                    <Button class="btn-cancel" @click="cancel">取消</Button>
                 </div>
                 <div slot="footer" style="display: none;"></div>
             </Modal>
@@ -160,7 +160,7 @@
              changePage(index){
                  this.currentPage=index
                  this.data1=this.allData.slice((index-1)*8,index*8)
-             }
+             },
          }
      }
 </script>
@@ -177,11 +177,20 @@
 
     .btn-purple{
         background-color: #9137F3;
-        color: #FFFFFF
+        color: #FFFFFF;
+        font-size: small;
+        padding: 8px 15px 8px 15px;
+        margin-right: 10px;
+    }
+    .btn-confirm{
+        margin-right: 20px;
+        background-color: #9137F3;
+        color: #FFFFFF;
     }
     .btn-cancel{
         background-color: #8D99A8;
         color: #FFFFFF;
+        margin-left: 20px;
     }
 
     .title{
@@ -208,7 +217,8 @@
 
     .modal-input{
         width: 350px;
-        margin-right: 0
+        margin-right: 0;
+        font-weight: normal;
     }
     .modal-inline{
         padding: 10px 10px 20px 10px;

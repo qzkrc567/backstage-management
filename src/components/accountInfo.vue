@@ -14,7 +14,7 @@
                     <div class="block-body">
                         <Button @click="smartModal=true" class="btn-purple" size="large" >
                             <Icon class="ivu-icon-ios-funnel"></Icon>
-                            导入聪慧网对账单
+                            导入慧聪网对账单
                         </Button>
                         <Button @click="logisticsModal=true" class="btn-purple" size="large" >
                             <Icon class="ivu-icon-ios-funnel"></Icon>
@@ -32,7 +32,7 @@
                 <div class="block">
                     <div class="block-body">
                         <Tabs  :animated="false" @on-click="changeTab">
-                            <TabPane label="聪慧网对账" >
+                            <TabPane label="慧聪网对账" >
                                 <Table :columns="format" :data="data1"></Table>
                                 <div style="float: right;">
                                     <Page :current="currentPage" :total="dataAmount1" :page-size="8" @on-change="changePage1"></Page>
@@ -56,17 +56,17 @@
             </Row>
 
             <Modal
-                title="规则导入"
+                title="选择文件"
                 v-model="smartModal"
                 :mask-closable="false"
                 class="vertical-center-modal">
                 <div class="ivu-form-inline modal-inline">
                     <label>
-                        <Input v-model="filesmart" size="large" class="modal-input" placeholder="upload">
+                        <Input v-model="filesmart" size="large" class="modal-input" placeholder="选择文件...">
                         </Input>
                     </label>
                     <label>
-                        <Upload :before-upload="handleUploadsmart">
+                        <Upload action="https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/upload" :before-upload="handleUploadsmart">
                             <Button class="btn-purple" size="large">
                                 <Icon class="ivu-icon-ios-funnel"></Icon>
                                 选择文件
@@ -75,23 +75,23 @@
                     </label>
                 </div>
                 <div style="margin-left: 33%">
-                    <Button class="btn-purple" style="margin-right: 20px;" @click="uploadsmart">确认</Button>
-                    <Button class="btn-cancel" style="margin-left: 20px;" @click="cancelsmart">取消</Button>
+                    <Button class="btn-confirm" @click="uploadsmart">确认</Button>
+                    <Button class="btn-cancel" @click="cancelsmart">取消</Button>
                 </div>
                 <div slot="footer" style="display: none;"></div>
             </Modal>
             <Modal
-                title="规则导入"
+                title="选择文件"
                 v-model="logisticsModal"
                 :mask-closable="false"
                 class="vertical-center-modal">
                 <div class="ivu-form-inline modal-inline">
                     <label>
-                        <Input v-model="filelogistics" size="large" class="modal-input" placeholder="upload">
+                        <Input v-model="filelogistics" size="large" class="modal-input" placeholder="选择文件...">
                         </Input>
                     </label>
                     <label>
-                        <Upload :before-upload="handleUploadlogistics">
+                        <Upload action="https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/upload" :before-upload="handleUploadlogistics">
                             <Button class="btn-purple" size="large">
                                 <Icon class="ivu-icon-ios-funnel"></Icon>
                                 选择文件
@@ -100,8 +100,8 @@
                     </label>
                 </div>
                 <div style="margin-left: 33%">
-                    <Button class="btn-purple" style="margin-right: 20px;" @click="uploadlogistics">确认</Button>
-                    <Button class="btn-cancel" style="margin-left: 20px;" @click="cancellogistics">取消</Button>
+                    <Button class="btn-confirm"  @click="uploadlogistics">确认</Button>
+                    <Button class="btn-cancel"  @click="cancellogistics">取消</Button>
                 </div>
                 <div slot="footer" style="display: none;"></div>
             </Modal>
@@ -261,17 +261,24 @@
         bottom: 0;
         right: 0;
         top: 81px
-
     }
 
     .btn-purple{
         background-color: #9137F3;
-        color: #FFFFFF
+        color: #FFFFFF;
+        font-size: small;
+        padding: 8px 15px 8px 15px;
+        margin-right: 10px;
     }
-
+    .btn-confirm{
+        margin-right: 20px;
+        background-color: #9137F3;
+        color: #FFFFFF;
+    }
     .btn-cancel{
         background-color: #8D99A8;
         color: #FFFFFF;
+        margin-left: 20px;
     }
 
     .title{
@@ -292,6 +299,18 @@
     .block-body{
         padding: 10px;
     }
+    .block-body>>>.ivu-tabs-ink-bar{
+        background-color: #9137F3;
+    }
+    .block-body>>>.ivu-tabs-nav .ivu-tabs-tab:hover{
+        color: #9137F3;
+    }
+    .block-body>>>.ivu-tabs-nav .ivu-tabs-tab-active{
+        color: #9137F3;
+    }
+    .block-body>>>.ivu-tabs-nav .ivu-tabs-tab{
+        padding-bottom: 13px;
+    }
 
 
     .vertical-center-modal{
@@ -302,7 +321,8 @@
 
     .modal-input{
         width: 350px;
-        margin-right: 0
+        margin-right: 0;
+        font-weight: normal;
     }
     .modal-inline{
         padding: 10px 10px 20px 10px;
