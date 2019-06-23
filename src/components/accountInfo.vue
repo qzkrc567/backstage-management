@@ -44,13 +44,13 @@
                                     <Page :current="currentPage" :total="dataAmounthuayu" :page-size="8" @on-change="changePagehuayu"></Page>
                                 </div>
                             </TabPane>
-                            <TabPane label="对账信息">
-                                <div v-if="allDataerror.length!==0">对账完成，以下为异常账单</div>
-                                <Table :columns="format" :data="dataerror"></Table>
-                                <div style="float: right;">
-                                    <Page :current="currentPage" :total="dataAmounterror" :page-size="8" @on-change="changePageerror"></Page>
-                                </div>
-                            </TabPane>
+<!--                            <TabPane label="对账信息">-->
+<!--                                <div v-if="allDataerror.length!==0">对账完成，以下为异常账单</div>-->
+<!--                                <Table :columns="format" :data="dataerror"></Table>-->
+<!--                                <div style="float: right;">-->
+<!--                                    <Page :current="currentPage" :total="dataAmounterror" :page-size="8" @on-change="changePageerror"></Page>-->
+<!--                                </div>-->
+<!--                            </TabPane>-->
                         </Tabs>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                 format:[
                     {
                         title:"订单编号",
-                        key:"id"
+                        key:"logisticCode"
                     },
                     {
                         title:"订单分类",
@@ -130,19 +130,43 @@
                     },
                     {
                         title:"标题",
-                        key:"title"
+                        key:"cargoName"
                     },
                     {
                         title:"订单金额",
-                        key:"amount"
+                        key:"totalPrice"
                     },
                     {
                         title:"订单状态",
-                        key:"status"
+                        key:"orderStatusType",
+                        render(h,params){
+                            let status='';
+                            switch(params.row.orderStatusType)
+                            {
+                                // case "WAITACCEPT":status='待受理';break;
+                                // case 'ACCEPT':status='已受理';break;
+                                // case 'UNACCEPT':status='拒绝受理';break;
+                                // case 'CANCELLED':status='已撤销';break;
+                                // case 'GOT':status='揽收成功';break;
+                                // case 'NOGET':status='揽收失败';break;
+                                // case 'SIGNSUCCESS':status='签收成功';break;
+                                // case 'SIGNFAILED':status='签收异常';break;
+                                case 0:status='待受理';break;
+                                case 1:status='已受理';break;
+                                case 3:status='拒绝受理';break;
+                                case 2:status='已撤销';break;
+                                case 4:status='揽收成功';break;
+                                case 5:status='揽收失败';break;
+                                case 6:status='签收成功';break;
+                                case 7:status='签收异常';break;
+                                default:status='unknown';alert(params.row.orderStatusType)
+                            }
+                            return h('div',{},status)
+                        }
                     },
                     {
                       title:"下单时间",
-                      key:"ordertime"
+                      key:"gmtTime"
                     }
                 ],
                 filehc:'',
@@ -168,63 +192,63 @@
         },
         methods:{
             changePagehc(index){
-                this.currentPage=index
+                this.currentPage=index;
                 this.datahc=this.allDatahc.slice((index-1)*8,index*8)
             },
             changePagehuayu(index){
-                this.currentPage=index
+                this.currentPage=index;
                 this.datahuayu=this.allDatahuayu.slice((index-1)*8,index*8)
             },
             changePageerror(index){
-                this.currentPage=index
+                this.currentPage=index;
                 this.dataerror=this.allDataerror.slice((index-1)*8,index*8)
             },
             changeTab(){
-                this.currentPage=1
-                this.datahc=this.allData1.slice(0,8)
-                this.datahuayu=this.allData2.slice(0,8)
-                this.dataerror=this.allData3.slice(0,8)
+                this.currentPage=1;
+                this.datahc=this.allDatahc.slice(0,8);
+                this.datahuayu=this.allDatahuayu.slice(0,8);
+                this.dataerror=this.allDataerror.slice(0,8)
             },
             handleUploadhc(file) {
                 this.file = file;
-                this.filehc=file.name
+                this.filehc=file.name;
                 return false;
             },
             handleUploadhuayu(file){
-                this.file=file
-                this.filehuayu=file.name
+                this.file=file;
+                this.filehuayu=file.name;
                 return false
             },
             uploadhc(){
                 if(this.file!=null)
                 {
-                    this.loadingStatus=true
+                    this.loadingStatus=true;
                     this.file = null;
-                    this.filehc=''
-                    this.loadingStatus=false
-                    this.$Message.success('Success')
+                    this.filehc='';
+                    this.loadingStatus=false;
+                    this.$Message.success('Success');
                     this.importfile('hc')
                 }
               this.hcModal=false
             },
             importfile(type){
-                if(type==='hc')
+                if(type==='huayu')
                 {
-                    this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/logistics')
+                    this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/huayu/list')
                         .then((response)=>{
-                            this.allDatahuayu=response.body.data
-                            this.dataAmounthuayu=this.allDatahuayu.length
+                            this.allDatahuayu=response.body.data;
+                            this.dataAmounthuayu=this.allDatahuayu.length;
                             this.datahuayu=this.allDatahuayu.slice(0,8)
                         }).catch(function (response) {
                         console.log(response)
                     })
                 }
-                else if(type==='huayu'){
-                    this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/smart')
+                else if(type==='hc'){
+                    this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/hc/list')
                         .then((response)=>{
-                            console.log(response)
-                            this.allDatahc=response.body.data
-                            this.dataAmounthc=this.allDatahc.length
+                            console.log(response);
+                            this.allDatahc=response.body.data;
+                            this.dataAmounthc=this.allDatahc.length;
                             this.datahc=this.allDatahc.slice(0,8)
                         }).catch(function (response) {
                         console.log(response)
@@ -235,11 +259,11 @@
             uploadhuayu () {
                 if(this.file!=null)
                 {
-                    this.loadingStatus=true
+                    this.loadingStatus=true;
                     this.file = null;
-                    this.filehuayu=''
-                    this.loadingStatus=false
-                    this.$Message.success('Success')
+                    this.filehuayu='';
+                    this.loadingStatus=false;
+                    this.$Message.success('Success');
                     this.importfile('huayu')
                 }
                 this.huayuModal=false
@@ -251,11 +275,11 @@
                 this.huayuModal=false
             },
             createInfo(){
-                this.$Message.success('success')
+                this.$Message.success('success');
                 this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/exception')
                     .then((response)=>{
-                        this.allDataerror=response.body.data
-                        this.dataAmounterror=this.allDataerror.length
+                        this.allDataerror=response.body.data;
+                        this.dataAmounterror=this.allDataerror.length;
                         this.dataerror=this.allDataerror.slice(0,8)
                     }).catch(function (response) {
                     console.log(response)
