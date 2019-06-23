@@ -62,28 +62,31 @@
                     {
                         title: '工号',
                         key: 'number',
+                        width: '100%'
                     },
                     {
                         title: '姓名',
                         key: 'name',
-                        width: 200
+                        width: '150%'
                     },
                     {
                         title: '手机',
-                        key: 'tel'
+                        key: 'tel',
+                        width: '130%'
                     },
                     {
                         title: '角色',
-                        key: 'type'
+                        key: 'type',
+                        width: '100%'
                     },
                     {
                         title: '邮箱',
-                        key: 'email',
-                        width: 85
+                        key: 'email'
                     },
                     {
                         title: '添加时间',
-                        key: 'time'
+                        key: 'time',
+                        width: '180%'
                     },
                     {
                         title: '操作',

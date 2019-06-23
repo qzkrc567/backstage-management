@@ -67,13 +67,16 @@
                         </div>
                     </div>
                     <div style="margin-top:5%;text-align:center">
-                        <button type="button" class="btn btn-success" style="margin-right:10%"><i
-                            class="fa fa-check-circle" style="margin-right: 4px;" @click="saveInfo"></i>保存
-                        </button>
-                        <button type="button" class="btn btn-danger"><i class="fa fa-times-circle"
-                                                                        style="margin-right: 4px;"
-                                                                        @click="cancelChange"></i>取消
-                        </button>
+                        <router-link :to="{path:'/allWorkers'}" @click.native="refresh">
+                            <button type="button" class="btn btn-success" style="margin-right:10%"><i
+                                class="fa fa-check-circle" style="margin-right: 4px;" @click="saveInfo"></i>保存
+                            </button>
+
+                            <button type="button" class="btn btn-danger"><i class="fa fa-times-circle"
+                                                                            style="margin-right: 4px;"
+                                                                            @click="cancelChange"></i>取消
+                            </button>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -129,6 +132,9 @@
                 this.file = file
                 this.filename = file.name
             },
+            refresh(){
+                this.$emit('refresh');
+            },
             upload () {
                 if (this.file != null) {
                     this.loadingStatus = true
@@ -140,14 +146,9 @@
             },
             saveInfo () {
                 console.log(this.workerInfo)
-                this.$router.push({
-                    path: '/allWorkers',
-                })
             },
             cancelChange () {
-                this.$router.push({
-                    path: '/allWorkers',
-                })
+                console.log("cancel")
             }
         }
     }
