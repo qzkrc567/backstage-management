@@ -124,18 +124,7 @@
             }
          },
          mounted() {
-             this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/freightRule')
-                 .then((response)=>{
-                     console.log(response)
-                     this.allData=response.body.rdata
-                     this.dataAmount=this.allData.length
-                     for(let i=0;i<8;i++)
-                     {
-                         this.data1.push(this.allData[i])
-                     }
-                 }).catch(function (response) {
-                    console.log(response)
-             })
+
          },
          methods:{
              cancel:function () {
@@ -146,6 +135,20 @@
                  this.filename=file.name
                  return false;
              },
+             importrule(){
+                 this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/freightRule')
+                     .then((response)=>{
+                         console.log(response)
+                         this.allData=response.body.rdata
+                         this.dataAmount=this.allData.length
+                         for(let i=0;i<8;i++)
+                         {
+                             this.data1.push(this.allData[i])
+                         }
+                     }).catch(function (response) {
+                     console.log(response)
+                 })
+             },
              upload () {
                  if(this.file!=null)
                  {
@@ -154,6 +157,7 @@
                      this.filename=''
                      this.loadingStatus = false;
                      this.$Message.success('Success')
+                     this.importrule()
                  }
                  this.importModal=false
              },

@@ -163,23 +163,8 @@
             }
         },
         mounted() {
-            this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/smart')
-                .then((response)=>{
-                    console.log(response)
-                    this.allDatahc=response.body.data
-                    this.dataAmounthc=this.allDatahc.length
-                    this.datahc=this.allDatahc.slice(0,8)
-                }).catch(function (response) {
-                console.log(response)
-                })
-            this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/logistics')
-                .then((response)=>{
-                    this.allDatahuayu=response.body.data
-                    this.dataAmounthuayu=this.allDatahuayu.length
-                    this.datahuayu=this.allDatahuayu.slice(0,8)
-                }).catch(function (response) {
-                console.log(response)
-            })
+
+
         },
         methods:{
             changePagehc(index){
@@ -218,8 +203,34 @@
                     this.filehc=''
                     this.loadingStatus=false
                     this.$Message.success('Success')
+                    this.importfile('hc')
                 }
               this.hcModal=false
+            },
+            importfile(type){
+                if(type==='hc')
+                {
+                    this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/logistics')
+                        .then((response)=>{
+                            this.allDatahuayu=response.body.data
+                            this.dataAmounthuayu=this.allDatahuayu.length
+                            this.datahuayu=this.allDatahuayu.slice(0,8)
+                        }).catch(function (response) {
+                        console.log(response)
+                    })
+                }
+                else if(type==='huayu'){
+                    this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/smart')
+                        .then((response)=>{
+                            console.log(response)
+                            this.allDatahc=response.body.data
+                            this.dataAmounthc=this.allDatahc.length
+                            this.datahc=this.allDatahc.slice(0,8)
+                        }).catch(function (response) {
+                        console.log(response)
+                    })
+                }
+
             },
             uploadhuayu () {
                 if(this.file!=null)
@@ -229,6 +240,7 @@
                     this.filehuayu=''
                     this.loadingStatus=false
                     this.$Message.success('Success')
+                    this.importfile('huayu')
                 }
                 this.huayuModal=false
             },
