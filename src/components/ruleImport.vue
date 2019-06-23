@@ -136,10 +136,10 @@
                  return false;
              },
              importrule(){
-                 this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/freightRule')
+                 this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/rule/list')
                      .then((response)=>{
                          console.log(response)
-                         this.allData=response.body.rdata
+                         this.allData=response.body.data
                          this.dataAmount=this.allData.length
                          for(let i=0;i<8;i++)
                          {
