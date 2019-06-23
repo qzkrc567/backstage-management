@@ -186,7 +186,6 @@
               return this.rows.slice((this.page_num-1)*this.pageSize,this.page_num*this.pageSize)
           }
         },
-
         methods: {
             deleteSelected(){
                 if(this.selectedData.length===0){

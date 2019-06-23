@@ -55,9 +55,11 @@
                             </div>
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>头像：</span></p>
-                                <Upload :before-upload="handleUpload" :action="doUpload">
-                                    <button type="button" class="btn btn-info"><i class="fa fa-plus-square"></i>上传头像</button>
-                                </Upload>
+<!--                                <Upload :before-upload="handleUpload" :action="doUpload">-->
+<!--                                    <button type="button" class="btn btn-info"><i class="fa fa-plus-square"></i>上传头像</button>-->
+
+                                <uploadPicture></uploadPicture>
+
                             </div>
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>简介：</span></p>
@@ -86,15 +88,17 @@
 
 <script>
     import NavBar from './navbar.vue'
+    import uploadPicture from './uploadPicture'
 
     export default {
         components: {
-            NavBar
+            NavBar,
+            uploadPicture
         },
         name: 'editWorkers',
         data () {
             return {
-                doUpload:'/somewhere',
+
                 editType: 0,//0表新建，1表编辑员工
                 file: null,
                 loadingStatus: false,
@@ -145,9 +149,11 @@
                 }
             },
             saveInfo () {
+                console.log(this.editType)
                 console.log(this.workerInfo)
             },
             cancelChange () {
+                console.log(this.editType)
                 console.log("cancel")
             }
         }
