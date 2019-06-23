@@ -12,11 +12,11 @@
                         导入
                     </div>
                     <div class="block-body">
-                        <Button @click="smartModal=true" class="btn-purple" size="large" >
+                        <Button @click="hcModal=true" class="btn-purple" size="large" >
                             <Icon class="ivu-icon-ios-funnel"></Icon>
                             导入慧聪网对账单
                         </Button>
-                        <Button @click="logisticsModal=true" class="btn-purple" size="large" >
+                        <Button @click="huayuModal=true" class="btn-purple" size="large" >
                             <Icon class="ivu-icon-ios-funnel"></Icon>
                             导入华宇物流对账单
                         </Button>
@@ -33,21 +33,22 @@
                     <div class="block-body">
                         <Tabs  :animated="false" @on-click="changeTab">
                             <TabPane label="慧聪网对账" >
-                                <Table :columns="format" :data="data1"></Table>
+                                <Table :columns="format" :data="datahc"></Table>
                                 <div style="float: right;">
-                                    <Page :current="currentPage" :total="dataAmount1" :page-size="8" @on-change="changePage1"></Page>
+                                    <Page :current="currentPage" :total="dataAmounthc" :page-size="8" @on-change="changePagehc"></Page>
                                 </div>
                             </TabPane>
                             <TabPane label="华宇物流对账单">
-                                <Table :columns="format" :data="data2"></Table>
+                                <Table :columns="format" :data="datahuayu"></Table>
                                 <div style="float: right;">
-                                    <Page :current="currentPage" :total="dataAmount2" :page-size="8" @on-change="changePage2"></Page>
+                                    <Page :current="currentPage" :total="dataAmounthuayu" :page-size="8" @on-change="changePagehuayu"></Page>
                                 </div>
                             </TabPane>
                             <TabPane label="对账信息">
-                                <Table :columns="format" :data="data3"></Table>
+                                <div v-if="allDataerror.length!==0">对账完成，以下为异常账单</div>
+                                <Table :columns="format" :data="dataerror"></Table>
                                 <div style="float: right;">
-                                    <Page :current="currentPage" :total="dataAmount3" :page-size="8" @on-change="changePage3"></Page>
+                                    <Page :current="currentPage" :total="dataAmounterror" :page-size="8" @on-change="changePageerror"></Page>
                                 </div>
                             </TabPane>
                         </Tabs>
@@ -57,16 +58,16 @@
 
             <Modal
                 title="选择文件"
-                v-model="smartModal"
+                v-model="hcModal"
                 :mask-closable="false"
                 class="vertical-center-modal">
                 <div class="ivu-form-inline modal-inline">
                     <label>
-                        <Input v-model="filesmart" size="large" class="modal-input" placeholder="选择文件...">
+                        <Input v-model="filehc" size="large" class="modal-input" placeholder="选择文件...">
                         </Input>
                     </label>
                     <label>
-                        <Upload action="https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/upload" :before-upload="handleUploadsmart">
+                        <Upload action="https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/upload" :before-upload="handleUploadhc">
                             <Button class="btn-purple" size="large">
                                 <Icon class="ivu-icon-ios-funnel"></Icon>
                                 选择文件
@@ -75,23 +76,23 @@
                     </label>
                 </div>
                 <div style="margin-left: 33%">
-                    <Button class="btn-confirm" @click="uploadsmart">确认</Button>
-                    <Button class="btn-cancel" @click="cancelsmart">取消</Button>
+                    <Button class="btn-confirm" @click="uploadhc">确认</Button>
+                    <Button class="btn-cancel" @click="cancelhc">取消</Button>
                 </div>
                 <div slot="footer" style="display: none;"></div>
             </Modal>
             <Modal
                 title="选择文件"
-                v-model="logisticsModal"
+                v-model="huayuModal"
                 :mask-closable="false"
                 class="vertical-center-modal">
                 <div class="ivu-form-inline modal-inline">
                     <label>
-                        <Input v-model="filelogistics" size="large" class="modal-input" placeholder="选择文件...">
+                        <Input v-model="filehuayu" size="large" class="modal-input" placeholder="选择文件...">
                         </Input>
                     </label>
                     <label>
-                        <Upload action="https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/upload" :before-upload="handleUploadlogistics">
+                        <Upload action="https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/upload" :before-upload="handleUploadhuayu">
                             <Button class="btn-purple" size="large">
                                 <Icon class="ivu-icon-ios-funnel"></Icon>
                                 选择文件
@@ -100,8 +101,8 @@
                     </label>
                 </div>
                 <div style="margin-left: 33%">
-                    <Button class="btn-confirm"  @click="uploadlogistics">确认</Button>
-                    <Button class="btn-cancel"  @click="cancellogistics">取消</Button>
+                    <Button class="btn-confirm"  @click="uploadhuayu">确认</Button>
+                    <Button class="btn-cancel"  @click="cancelhuayu">取消</Button>
                 </div>
                 <div slot="footer" style="display: none;"></div>
             </Modal>
@@ -144,110 +145,110 @@
                       key:"ordertime"
                     }
                 ],
-                filesmart:'',
-                filelogistics:'',
+                filehc:'',
+                filehuayu:'',
                 loadingStatus:false,
-                smartModal:false,
-                logisticsModal:false,
-                data1:[],
-                data2:[],
-                data3:[],
-                allData1:[],
-                allData2:[],
-                allData3:[],
+                hcModal:false,
+                huayuModal:false,
+                datahc:[],
+                datahuayu:[],
+                dataerror:[],
+                allDatahc:[],
+                allDatahuayu:[],
+                allDataerror:[],
                 currentPage:1,
-                dataAmount1:0,
-                dataAmount2:0,
-                dataAmount3:0
+                dataAmounthc:0,
+                dataAmounthuayu:0,
+                dataAmounterror:0
             }
         },
         mounted() {
             this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/smart')
                 .then((response)=>{
                     console.log(response)
-                    this.allData1=response.body.data
-                    this.dataAmount1=this.allData1.length
-                    this.data1=this.allData1.slice(0,8)
+                    this.allDatahc=response.body.data
+                    this.dataAmounthc=this.allDatahc.length
+                    this.datahc=this.allDatahc.slice(0,8)
                 }).catch(function (response) {
                 console.log(response)
                 })
             this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/logistics')
                 .then((response)=>{
-                    this.allData2=response.body.data
-                    this.dataAmount2=this.allData2.length
-                    this.data2=this.allData2.slice(0,8)
+                    this.allDatahuayu=response.body.data
+                    this.dataAmounthuayu=this.allDatahuayu.length
+                    this.datahuayu=this.allDatahuayu.slice(0,8)
                 }).catch(function (response) {
                 console.log(response)
             })
-            this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/exception')
-                .then((response)=>{
-                    this.allData3=response.body.data
-                    this.dataAmount3=this.allData3.length
-                    this.data3=this.allData3.slice(0,8)
-                }).catch(function (response) {
-                    console.log(response)
-
-            })
         },
         methods:{
-            changePage1(index){
+            changePagehc(index){
                 this.currentPage=index
-                this.data1=this.allData1.slice((index-1)*8,index*8)
+                this.datahc=this.allDatahc.slice((index-1)*8,index*8)
             },
-            changePage2(index){
+            changePagehuayu(index){
                 this.currentPage=index
-                this.data2=this.allData2.slice((index-1)*8,index*8)
+                this.datahuayu=this.allDatahuayu.slice((index-1)*8,index*8)
             },
-            changePage3(index){
+            changePageerror(index){
                 this.currentPage=index
-                this.data3=this.allData3.slice((index-1)*8,index*8)
+                this.dataerror=this.allDataerror.slice((index-1)*8,index*8)
             },
             changeTab(){
                 this.currentPage=1
-                this.data1=this.allData1.slice(0,8)
-                this.data2=this.allData2.slice(0,8)
-                this.data3=this.allData3.slice(0,8)
+                this.datahc=this.allData1.slice(0,8)
+                this.datahuayu=this.allData2.slice(0,8)
+                this.dataerror=this.allData3.slice(0,8)
             },
-            handleUploadsmart (file) {
+            handleUploadhc(file) {
                 this.file = file;
-                this.filesmart=file.name
+                this.filehc=file.name
                 return false;
             },
-            handleUploadlogistics(file){
+            handleUploadhuayu(file){
                 this.file=file
-                this.filelogistics=file.name
+                this.filehuayu=file.name
                 return false
             },
-            uploadsmart(){
+            uploadhc(){
                 if(this.file!=null)
                 {
                     this.loadingStatus=true
                     this.file = null;
-                    this.filesmart=''
+                    this.filehc=''
                     this.loadingStatus=false
                     this.$Message.success('Success')
                 }
-              this.smartModal=false
+              this.hcModal=false
             },
-            uploadlogistics () {
+            uploadhuayu () {
                 if(this.file!=null)
                 {
                     this.loadingStatus=true
                     this.file = null;
-                    this.filelogistics=''
+                    this.filehuayu=''
                     this.loadingStatus=false
                     this.$Message.success('Success')
                 }
-                this.logisticsModal=false
+                this.huayuModal=false
             },
-            cancelsmart(){
-                this.smartModal=false
+            cancelhc(){
+                this.hcModal=false
             },
-            cancellogistics(){
-                this.logisticsModal=false
+            cancelhuayu(){
+                this.huayuModal=false
             },
             createInfo(){
                 this.$Message.success('success')
+                this.$http.get('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/exception')
+                    .then((response)=>{
+                        this.allDataerror=response.body.data
+                        this.dataAmounterror=this.allDataerror.length
+                        this.dataerror=this.allDataerror.slice(0,8)
+                    }).catch(function (response) {
+                    console.log(response)
+
+                })
             }
         }
     }
