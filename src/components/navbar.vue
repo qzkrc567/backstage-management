@@ -47,9 +47,18 @@
                 </ul>
               </div>
             </li>
-            <li><router-link :to="{path:'/'}" class=""><i class="lnr lnr-user"></i> <span>员工管理</span></router-link></li>
-            <li><router-link :to="{path:'/'}" class=""><i class="lnr lnr-text-format"></i> <span>对账信息</span></router-link></li>
-            <li><router-link :to="{path:'/'}" class=""><i class="lnr lnr-linearicons"></i> <span>规则导入</span></router-link></li>
+              <li>
+                  <a href="#subPagesWorker" data-toggle="collapse" class="collapsed"><i class="lnr lnr-user"></i> <span>员工管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+                  <div id="subPagesWorker" class="collapse ">
+                      <ul class="nav">
+                          <li><router-link :to="{path:'/allWorkers'}" @click.native="refresh" class="">全部员工</router-link></li>
+                          <li><router-link :to="{path:'/editWorker'}" @click.native="refresh" class="">新建/编辑员工</router-link></li>
+                      </ul>
+                  </div>
+                  <!--                <router-link :to="{path:'/'}" class=""><i class="lnr lnr-user"></i> <span>员工管理</span></router-link>-->
+              </li>
+            <li><router-link :to="{path:'/accountInfo'}" class=""><i class="lnr lnr-text-format"></i> <span>对账信息</span></router-link></li>
+            <li><router-link :to="{path:'/ruleImport'}" class=""><i class="lnr lnr-linearicons"></i> <span>规则导入</span></router-link></li>
           </ul>
         </nav>
       </div>
