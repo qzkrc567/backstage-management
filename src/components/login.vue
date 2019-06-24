@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     login () {
-      if (this.username == '' || this.password == '') {
+      if (this.username === '' || this.password === '') {
         this.$Message.warning('username or password cannot be null')
       } else {
         this.$http.post('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/login',

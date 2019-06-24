@@ -114,7 +114,7 @@
 import Navbar from './navbar'
 export default {
   name: 'accountInfo',
-  components: { Navbar},
+  components: {Navbar},
   data () {
     return {
       format: [
