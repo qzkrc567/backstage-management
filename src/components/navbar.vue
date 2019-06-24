@@ -67,22 +67,22 @@
 </template>
 
 <script>
-  export default {
-    props:{
+export default {
+  props: {
 
+  },
+  methods: {
+    logout () {
+      console.log('logout')
     },
-    methods:{
-      logout(){
-        console.log("logout")
-      },
-      info(){
-        console.log("info")
-      },
-      refresh(){
-        this.$emit('refresh');
-      },
+    info () {
+      console.log('info')
+    },
+    refresh () {
+      this.$emit('refresh')
     }
   }
+}
 </script>
 
 <style scoped>

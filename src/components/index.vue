@@ -95,150 +95,150 @@
 </template>
 
 <script>
-  import NavBar from './navbar.vue'
-  export default {
-      components: {
-          NavBar
+import NavBar from './navbar.vue'
+export default {
+  components: {
+    NavBar
+  },
+  name: 'HelloWorld',
+  data () {
+    return {
+      weekstyle: {
+        'color': 'black'
       },
-      name: 'HelloWorld',
-      data () {
-          return {
-              weekstyle: {
-                  'color': 'black'
-              },
-              monthstyle: {
-                  'color': 'blue',
-                  'text-shadow': '0 0 1px black'
-              },
-              todayOrderNum: 0,
-              todayPredictIncome: 0,
-              todayUnusualOrder: 0,
-              todayTotalOrderPrice: 0,
-              monthOrderNum: 0,
-              monthOrderMoney: 0,
-              weekOrderNum: 0,
-              weekOrderMoney: 0,
-              showMonth: true,
-              monthXAxis:[],
-              weekXAxis:[],
-              monthYData:[],
-              weekYData:[],
-              weekOptions:{},
-              monthOptions:{}
-          }
+      monthstyle: {
+        'color': 'blue',
+        'text-shadow': '0 0 1px black'
       },
-      created () {
-          this.getBasicInfo()
-          this.getOrderTrend()
-          this.getMonthData()
-          this.getWeekData()
-      },
-      methods: {
-              getMonthData(){
-                  this.$http.get("https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getMonthData").then(function (res) {
-                      console.log(res)
-                      this.monthXAxis = res.body.dateList;
-                      this.monthYData = res.body.moneyList;
-                      this.drawLine()
-                  }, function (res) {
-                      console.log(res)
-                  })
-              },
-              getWeekData(){
-                  this.$http.get("https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getWeekData").then(function (res) {
-                      console.log(res)
-                      this.weekXAxis = res.body.dateList;
-                      this.weekYData = res.body.moneyList;
-                      this.drawLine()
-                  }, function (res) {
-                      console.log(res)
-                  })
-              },
-              drawLine () {
-                  this.weekOptions = {
-                      xAxis: {
-                          type: 'category',
-                          data: this.weekXAxis
-                      },
-                      yAxis: {
-                          type: 'value',
-                          show:true
-                      },
-                      grid: {
-                          left: '15%',   //距离左边的距离
-                          right: '15%', //距离右边的距离
-                          bottom: '10%',//距离下边的距离
-                          top: '10%' //距离上边的距离
-                      },
-                      series: [{
-                          data: this.weekYData,
-                          type: 'line',
-                          itemStyle : { normal: {label : {show: true}}}
-                      }]
-                  }
-                  this.monthOptions={
-                      xAxis: {
-                          type: 'category',
-                          data: this.monthXAxis
-                      },
-                      yAxis: {
-                          type: 'value',
-                          show:true
-                      },
-                      grid: {
-                          left: '15%',   //距离左边的距离
-                          right: '15%', //距离右边的距离
-                          bottom: '10%',//距离下边的距离
-                          top: '10%' //距离上边的距离
-                      },
-                      series: [{
-                          data: this.monthYData,
-                          type: 'line',
-                          itemStyle : { normal: {label : {show: true}}},
-                          smooth:true
-                      }],
-                  }
-              },
-              getBasicInfo () {
-                  this.$http.get("https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/order_basic_info").then(function (res) {
-                      console.log(res)
-                      this.todayOrderNum = res.body.data.todayOrderNum;
-                      this.todayPredictIncome = res.body.data.todayPredictIncome;
-                      this.todayUnusualOrder = res.body.data.todayUnusualOrder;
-                      this.todayTotalOrderPrice = res.body.data.todayTotalOrderPrice;
-                  })
-              },
-              getOrderTrend () {
-                  this.$http.get("https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/order_trend").then(function (res) {
-                      console.log(res)
-                      this.monthOrderNum = res.body.data[0].monthOrderNum;
-                      this.monthOrderMoney = res.body.data[0].monthOrderMoney;
-                      this.weekOrderNum = res.body.data[0].weekOrderNum;
-                      this.weekOrderMoney = res.body.data[0].weekOrderMoney;
-                  })
-              },
-              selectweek () {
-                  this.showMonth = false
-                  this.weekstyle = {
-                      'color': 'blue',
-                      'text-shadow': '0 0 1px black'
-                  }
-                  this.monthstyle = {
-                      'color': 'black'
-                  }
-              },
-              selectmonth () {
-                  this.showMonth = true
-                  this.monthstyle = {
-                      'color': 'blue',
-                      'text-shadow': '0 0 1px black'
-                  }
-                  this.weekstyle = {
-                      'color': 'black'
-                  }
-              }
-          }
+      todayOrderNum: 0,
+      todayPredictIncome: 0,
+      todayUnusualOrder: 0,
+      todayTotalOrderPrice: 0,
+      monthOrderNum: 0,
+      monthOrderMoney: 0,
+      weekOrderNum: 0,
+      weekOrderMoney: 0,
+      showMonth: true,
+      monthXAxis: [],
+      weekXAxis: [],
+      monthYData: [],
+      weekYData: [],
+      weekOptions: {},
+      monthOptions: {}
+    }
+  },
+  created () {
+    this.getBasicInfo()
+    this.getOrderTrend()
+    this.getMonthData()
+    this.getWeekData()
+  },
+  methods: {
+    getMonthData () {
+      this.$http.get('https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getMonthData').then(function (res) {
+        console.log(res)
+        this.monthXAxis = res.body.dateList
+        this.monthYData = res.body.moneyList
+        this.drawLine()
+      }, function (res) {
+        console.log(res)
+      })
+    },
+    getWeekData () {
+      this.$http.get('https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getWeekData').then(function (res) {
+        console.log(res)
+        this.weekXAxis = res.body.dateList
+        this.weekYData = res.body.moneyList
+        this.drawLine()
+      }, function (res) {
+        console.log(res)
+      })
+    },
+    drawLine () {
+      this.weekOptions = {
+        xAxis: {
+          type: 'category',
+          data: this.weekXAxis
+        },
+        yAxis: {
+          type: 'value',
+          show: true
+        },
+        grid: {
+          left: '15%', // 距离左边的距离
+          right: '15%', // 距离右边的距离
+          bottom: '10%', // 距离下边的距离
+          top: '10%' // 距离上边的距离
+        },
+        series: [{
+          data: this.weekYData,
+          type: 'line',
+          itemStyle: {normal: {label: {show: true}}}
+        }]
+      }
+      this.monthOptions = {
+        xAxis: {
+          type: 'category',
+          data: this.monthXAxis
+        },
+        yAxis: {
+          type: 'value',
+          show: true
+        },
+        grid: {
+          left: '15%', // 距离左边的距离
+          right: '15%', // 距离右边的距离
+          bottom: '10%', // 距离下边的距离
+          top: '10%' // 距离上边的距离
+        },
+        series: [{
+          data: this.monthYData,
+          type: 'line',
+          itemStyle: {normal: {label: {show: true}}},
+          smooth: true
+        }]
+      }
+    },
+    getBasicInfo () {
+      this.$http.get('https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/order_basic_info').then(function (res) {
+        console.log(res)
+        this.todayOrderNum = res.body.data.todayOrderNum
+        this.todayPredictIncome = res.body.data.todayPredictIncome
+        this.todayUnusualOrder = res.body.data.todayUnusualOrder
+        this.todayTotalOrderPrice = res.body.data.todayTotalOrderPrice
+      })
+    },
+    getOrderTrend () {
+      this.$http.get('https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/order_trend').then(function (res) {
+        console.log(res)
+        this.monthOrderNum = res.body.data[0].monthOrderNum
+        this.monthOrderMoney = res.body.data[0].monthOrderMoney
+        this.weekOrderNum = res.body.data[0].weekOrderNum
+        this.weekOrderMoney = res.body.data[0].weekOrderMoney
+      })
+    },
+    selectweek () {
+      this.showMonth = false
+      this.weekstyle = {
+        'color': 'blue',
+        'text-shadow': '0 0 1px black'
+      }
+      this.monthstyle = {
+        'color': 'black'
+      }
+    },
+    selectmonth () {
+      this.showMonth = true
+      this.monthstyle = {
+        'color': 'blue',
+        'text-shadow': '0 0 1px black'
+      }
+      this.weekstyle = {
+        'color': 'black'
+      }
+    }
   }
+}
 </script>
 
 <style scoped>

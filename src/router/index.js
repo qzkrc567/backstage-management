@@ -28,25 +28,25 @@ export default new Router({
       name: 'orderDetail',
       component: OrderDetail
     },
-      {
-          path:'/ruleImport',
-          component: RuleImport
-      },
-      {
-          path:'/accountInfo',
-          component: AccountInfo
-      },
-      {
-          path:'/allWorkers',
-          component:AllWorkers
-      },
-      {
-          path:'/editWorker',
-          component:EditWorker
-      },
-      {
-          path:'/login',
-          component: Login
-      }
+    {
+      path: '/ruleImport',
+      component: RuleImport
+    },
+    {
+      path: '/accountInfo',
+      component: AccountInfo
+    },
+    {
+      path: '/allWorkers',
+      component: AllWorkers
+    },
+    {
+      path: '/editWorker',
+      component: EditWorker
+    },
+    {
+      path: '/login',
+      component: Login
+    }
   ]
 })

@@ -54,90 +54,90 @@
 </template>
 
 <script>
-    import NavBar from './navbar.vue'
-    export default {
-        components:{
-            NavBar
+import NavBar from './navbar.vue'
+export default {
+  components: {
+    NavBar
+  },
+  data () {
+    return {
+      orderInfo: {
+        order_number: '1782867',
+        client_name: 'yangqichao666',
+        client_type: '非会员',
+        goods_name: '压料器',
+        express_company: '德邦快递',
+        product_name: '精准汽运(长途)',
+        order_status: '6',
+        goods_count: 1,
+        goods_weight: 20,
+        goods_volume: '',
+        service_name: '燃油附加费,开箱验货,货物保价,运费到付,短信通知服务',
+        extra_fee: 100,
+        nomal_fee: 60,
+        estimated_price: 153,
+        actual_price: 160,
+        sender_area: '山东省-青岛市-黄岛区',
+        sender_info: '王台镇',
+        sender_name: '杨起超',
+        sender_phone: '18354293345',
+        receiver_info: '长兴岛街道办事处铭岛仕家',
+        receiver_name: '陈雨',
+        receiver_phone: '13322262933',
+        receiver_area: '辽宁省-大连市-瓦房店市'
+      },
+      columns: [
+        {
+          title: '操作人',
+          key: 'operName'
         },
-        data(){
-            return{
-                orderInfo: {
-                    order_number: '1782867',
-                    client_name: "yangqichao666",
-                    client_type: "非会员",
-                    goods_name: "压料器",
-                    express_company: "德邦快递",
-                    product_name: "精准汽运(长途)",
-                    order_status: '6',
-                    goods_count: 1,
-                    goods_weight: 20,
-                    goods_volume: '',
-                    service_name: '燃油附加费,开箱验货,货物保价,运费到付,短信通知服务',
-                    extra_fee: 100,
-                    nomal_fee: 60,
-                    estimated_price: 153,
-                    actual_price: 160,
-                    sender_area: '山东省-青岛市-黄岛区',
-                    sender_info: '王台镇',
-                    sender_name: '杨起超',
-                    sender_phone: '18354293345',
-                    receiver_info: '长兴岛街道办事处铭岛仕家',
-                    receiver_name: '陈雨',
-                    receiver_phone: '13322262933',
-                    receiver_area: '辽宁省-大连市-瓦房店市'
-                },
-                columns:[
-                    {
-                        title: '操作人',
-                        key: 'operName',
-                    },
-                    {
-                        title: '订单状态',
-                        key: 'orderStatus'
-                    },
-                    {
-                        title: '付款状态',
-                        key: 'payStatus'
-                    },
-                    {
-                        title: '操作时间',
-                        key: 'time'
-                    },
-                    {
-                        title: '备注',
-                        key: 'info'
-                    }
-                ],
-                rows:[
-                    {
-                        operName:'1',
-                        orderStatus:'好',
-                        payStatus:'好',
-                        time:'好',
-                        info:'好',
-                    }
-                ],
-            }
+        {
+          title: '订单状态',
+          key: 'orderStatus'
         },
-        name: "orderDetail",
-        created(){
-            this.getOrderDetail()
+        {
+          title: '付款状态',
+          key: 'payStatus'
         },
-        methods:{
-            getOrderDetail(){
-                var that = this;
-                this.$http.get("https://www.easy-mock.com/mock/5c833375e0e0f75c246237e4/example/orderDetail", {params:{order_number: this.$route.query.order_number}}).then(function (res) {
-                    console.log(res)
-                    that.orderInfo = res.body.data;
-                }, function (res) {
-                    console.log(res)
-                })
-            },
-            back(){
-                this.$router.go(-1);
-            },
+        {
+          title: '操作时间',
+          key: 'time'
+        },
+        {
+          title: '备注',
+          key: 'info'
         }
+      ],
+      rows: [
+        {
+          operName: '1',
+          orderStatus: '好',
+          payStatus: '好',
+          time: '好',
+          info: '好'
+        }
+      ]
     }
+  },
+  name: 'orderDetail',
+  created () {
+    this.getOrderDetail()
+  },
+  methods: {
+    getOrderDetail () {
+      var that = this
+      this.$http.get('https://www.easy-mock.com/mock/5c833375e0e0f75c246237e4/example/orderDetail', {params: {order_number: this.$route.query.order_number}}).then(function (res) {
+        console.log(res)
+        that.orderInfo = res.body.data
+      }, function (res) {
+        console.log(res)
+      })
+    },
+    back () {
+      this.$router.go(-1)
+    }
+  }
+}
 </script>
 
 <style scoped>

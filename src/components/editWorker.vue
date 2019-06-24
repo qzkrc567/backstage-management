@@ -20,19 +20,19 @@
                                 <p style="width:8%;margin-top:0.7%"><span>员工姓名</span><span
                                     style="color:#FF0000;">*</span><span>：</span></p>
                                 <input type="text" class="form-control" style="width:20%;"
-                                       v-model="workerInfo.name"></input>
+                                       v-model="workerInfo.name"/>
                             </div>
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>工号</span><span style="color:#FF0000;">*</span><span>：</span>
                                 </p>
                                 <input type="text" class="form-control" style="width:20%;"
-                                       v-model="workerInfo.number"></input>
+                                       v-model="workerInfo.number"/>
                             </div>
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>密码</span><span style="color:#FF0000;">*</span><span>：</span>
                                 </p>
                                 <input type="text" class="form-control" style="width:20%;" placeholder="请输入至少7位，数字或英文"
-                                       v-model="workerInfo.password"></input>
+                                       v-model="workerInfo.password"/>
                             </div>
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>角色</span><span style="color:#FF0000;">*</span><span>：</span>
@@ -51,7 +51,7 @@
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>手机号码：</span></p>
                                 <input type="text" class="form-control" style="width:20%;"
-                                       v-model="workerInfo.telephone"></input>
+                                       v-model="workerInfo.telephone"/>
                             </div>
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>头像：</span></p>
@@ -87,77 +87,76 @@
 </template>
 
 <script>
-    import NavBar from './navbar.vue'
-    import uploadPicture from './uploadPicture'
+import NavBar from './navbar.vue'
+import uploadPicture from './uploadPicture'
 
-    export default {
-        components: {
-            NavBar,
-            uploadPicture
-        },
-        name: 'editWorkers',
-        data () {
-            return {
+export default {
+  components: {
+    NavBar,
+    uploadPicture
+  },
+  name: 'editWorkers',
+  data () {
+    return {
 
-                editType: 0,//0表新建，1表编辑员工
-                file: null,
-                loadingStatus: false,
-                filename: '',
-                workerInfo: {
-                    name: '',
-                    number: '',
-                    password: '',
-                    type: 'unknown',
-                    telephone: '',
-                    aboutInfo: ''
-                }
-            }
-        },
-        created () {
-            this.getWorkerData()
-        },
-        methods: {
-            getWorkerData () {
-                let number = this.$route.query.number
-                if (number == null) {
-                    this.editType = 0
-                    return
-                } else {
-                    this.editType = 1
-                    this.$http.get('https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getWorkerDetail', {params: {worker_number: this.$route.query.number}}).then(function (res) {
-                        console.log(res)
-                        this.workerInfo = res.body.data
-                    }, function (res) {
-                        console.log(res)
-                    })
-                }
-            },
-            handleUpload (file) {
-                this.file = file
-                this.filename = file.name
-            },
-            refresh(){
-                this.$emit('refresh');
-            },
-            upload () {
-                if (this.file != null) {
-                    this.loadingStatus = true
-                    this.file = null
-                    this.filename = ''
-                    this.loadingStatus = false
-                    this.$Message.success('Success')
-                }
-            },
-            saveInfo () {
-                console.log(this.editType)
-                console.log(this.workerInfo)
-            },
-            cancelChange () {
-                console.log(this.editType)
-                console.log("cancel")
-            }
-        }
+      editType: 0, // 0表新建，1表编辑员工
+      file: null,
+      loadingStatus: false,
+      filename: '',
+      workerInfo: {
+        name: '',
+        number: '',
+        password: '',
+        type: 'unknown',
+        telephone: '',
+        aboutInfo: ''
+      }
     }
+  },
+  created () {
+    this.getWorkerData()
+  },
+  methods: {
+    getWorkerData () {
+      let number = this.$route.query.number
+      if (number == null) {
+        this.editType = 0
+      } else {
+        this.editType = 1
+        this.$http.get('https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getWorkerDetail', {params: {worker_number: this.$route.query.number}}).then(function (res) {
+          console.log(res)
+          this.workerInfo = res.body.data
+        }, function (res) {
+          console.log(res)
+        })
+      }
+    },
+    handleUpload (file) {
+      this.file = file
+      this.filename = file.name
+    },
+    refresh () {
+      this.$emit('refresh')
+    },
+    upload () {
+      if (this.file != null) {
+        this.loadingStatus = true
+        this.file = null
+        this.filename = ''
+        this.loadingStatus = false
+        this.$Message.success('Success')
+      }
+    },
+    saveInfo () {
+      console.log(this.editType)
+      console.log(this.workerInfo)
+    },
+    cancelChange () {
+      console.log(this.editType)
+      console.log('cancel')
+    }
+  }
+}
 </script>
 
 <style scoped>

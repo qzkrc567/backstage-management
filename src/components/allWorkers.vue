@@ -38,209 +38,206 @@
 </template>
 
 <script>
-    import NavBar from './navbar.vue'
-    export default {
-        components: {
-            NavBar
+import NavBar from './navbar.vue'
+export default {
+  components: {
+    NavBar
+  },
+  name: 'AllWorkers',
+  data () {
+    return {
+      selectString: '',
+      selectType: 'all',
+      pageSize: 15,
+      selectAll: false,
+      page_num: 1,
+      worker_count: 150,
+      selectedData: [],
+      columns: [
+        {
+          type: 'selection',
+          width: 60,
+          align: 'center'
         },
-        name: 'AllWorkers',
-        data () {
-            return {
-                selectString:"",
-                selectType:'all',
-                pageSize:15,
-                selectAll:false,
-                page_num: 1,
-                worker_count: 150,
-                selectedData: [],
-                columns: [
-                    {
-                        type: 'selection',
-                        width: 60,
-                        align: 'center'
-                    },
-                    {
-                        title: '工号',
-                        key: 'number',
-                        width: '100%'
-                    },
-                    {
-                        title: '姓名',
-                        key: 'name',
-                        width: '150%'
-                    },
-                    {
-                        title: '手机',
-                        key: 'tel',
-                        width: '130%'
-                    },
-                    {
-                        title: '角色',
-                        key: 'type',
-                        width: '100%'
-                    },
-                    {
-                        title: '邮箱',
-                        key: 'email'
-                    },
-                    {
-                        title: '添加时间',
-                        key: 'time',
-                        width: '180%'
-                    },
-                    {
-                        title: '操作',
-                        key: 'oper',
-                        width: 200,
-                        align: 'center',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'primary',
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.$router.push({
-                                                path: '/editWorker',
-                                                query: {
-                                                    number: params.row.number
-                                                }
-                                            })
-                                        }
-                                    }
-                                }, '编辑'),
-                                h('Button', {
-                                    props: {
-                                        type: 'error',
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.deleteWorker(params.row.number)
-                                            // this.$router.push({
-                                            //     path: '/editWorker',
-                                            //     query: {
-                                            //         number: params.row.number
-                                            //     }
-                                            // })
-                                        }
-                                    }
-                                }, '删除')
-                            ]);
-                        }
-                    }
-                ],
-                allRows: [],
-            }
+        {
+          title: '工号',
+          key: 'number',
+          width: '100%'
         },
-        created () {
-            this.getTableData();
+        {
+          title: '姓名',
+          key: 'name',
+          width: '150%'
         },
-        computed:{
-          page_count(){
-            return this.rows.length
-          },
-          rows(){
-              if(this.selectString=="" && this.selectType=="all"){
-                  return this.allRows
-              }
-              else{
-                  let list_res=[]
-                  if(this.selectType=="all"){
-                      this.allRows.forEach(item=>{
-                          let strNumber=""+item.number
-                          let strName=""+item.name
-                          if(strNumber.indexOf(this.selectString)!=-1 || strName.indexOf(this.selectString)!=-1){
-                              list_res.push(item)
-                          }
-                      })
+        {
+          title: '手机',
+          key: 'tel',
+          width: '130%'
+        },
+        {
+          title: '角色',
+          key: 'type',
+          width: '100%'
+        },
+        {
+          title: '邮箱',
+          key: 'email'
+        },
+        {
+          title: '添加时间',
+          key: 'time',
+          width: '180%'
+        },
+        {
+          title: '操作',
+          key: 'oper',
+          width: 200,
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({
+                      path: '/editWorker',
+                      query: {
+                        number: params.row.number
+                      }
+                    })
                   }
-                  else{
-                      this.allRows.forEach(item=>{
-                          var selectTypeStr="管理员"
-                          if(this.selectType=="admin"){
-                              selectTypeStr="管理员"
-                          }
-                          else{
-                              selectTypeStr="普通用户"
-                          }
-                          if(item.type==selectTypeStr){
-                              let strNumber=""+item.number
-                              let strName=""+item.name
-                              if(strNumber.indexOf(this.selectString)!=-1 || strName.indexOf(this.selectString)!=-1){
-                                  list_res.push(item)
-                              }
-                          }
-                      })
+                }
+              }, '编辑'),
+              h('Button', {
+                props: {
+                  type: 'error'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.deleteWorker(params.row.number)
+                    // this.$router.push({
+                    //     path: '/editWorker',
+                    //     query: {
+                    //         number: params.row.number
+                    //     }
+                    // })
                   }
-                  return list_res
-              }
-          },
-          showRows(){
-              return this.rows.slice((this.page_num-1)*this.pageSize,this.page_num*this.pageSize)
+                }
+              }, '删除')
+            ])
           }
-        },
-        methods: {
-            deleteSelected(){
-                if(this.selectedData.length===0){
-                    return
-                }
-                let list_delete_number=[]
-                this.selectedData.forEach(item=>{
-                    list_delete_number.push(item.number)
-                })
-                console.log(list_delete_number)
-                this.refresh()
-            },
-            refresh () {
-                this.$router.go(0);
-            },
-            deleteWorker(number){
-                alert(number)
-            },
-            getTableData () {
-                this.$http.get("https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getAllWorkers",).then(function (res) {
-                    console.log(res)
-                    this.allRows = res.body.data;
-                    this.worker_count = res.body.worker_count;
-                }, function (res) {
-                    console.log(res)
-                })
-            },
-            changePage (page_num) {
-                this.page_num=page_num
-            },
-            setSelectedData (selection) {
-                this.selectedData = selection
-            },
-            compareObject (obj1, obj2) {
-                let attrs1 = Object.keys(obj1);
-                let attrs2 = Object.keys(obj2);
-                console.log(obj1);
-                console.log(obj2);
-                if (attrs1.length != attrs2.length) {
-                    return false;
-                }
-                for (let j = 0; j < attrs1.length; j++) {
-                    let attrNames = attrs1[j];
-                    if (obj1[attrNames] != obj2[attrNames]) {
-                        return false;
-                    }
-                }
-                return true;
-            },
-            handleSelectAll () {
-                this.selectAll=!this.selectAll
-                this.$refs.table.selectAll(this.selectAll);
-            }
         }
+      ],
+      allRows: []
     }
+  },
+  created () {
+    this.getTableData()
+  },
+  computed: {
+    page_count () {
+      return this.rows.length
+    },
+    rows () {
+      if (this.selectString === '' && this.selectType === 'all') {
+        return this.allRows
+      } else {
+        let listRes = []
+        if (this.selectType === 'all') {
+          this.allRows.forEach(item => {
+            let strNumber = '' + item.number
+            let strName = '' + item.name
+            if (strNumber.indexOf(this.selectString) !== -1 || strName.indexOf(this.selectString) !== -1) {
+              listRes.push(item)
+            }
+          })
+        } else {
+          this.allRows.forEach(item => {
+            var selectTypeStr = '管理员'
+            if (this.selectType === 'admin') {
+              selectTypeStr = '管理员'
+            } else {
+              selectTypeStr = '普通用户'
+            }
+            if (item.type === selectTypeStr) {
+              let strNumber = '' + item.number
+              let strName = '' + item.name
+              if (strNumber.indexOf(this.selectString) !== -1 || strName.indexOf(this.selectString) !== -1) {
+                listRes.push(item)
+              }
+            }
+          })
+        }
+        return listRes
+      }
+    },
+    showRows () {
+      return this.rows.slice((this.page_num - 1) * this.pageSize, this.page_num * this.pageSize)
+    }
+  },
+  methods: {
+    deleteSelected () {
+      if (this.selectedData.length === 0) {
+        return
+      }
+      let listDeleteNumber = []
+      this.selectedData.forEach(item => {
+        listDeleteNumber.push(item.number)
+      })
+      console.log(listDeleteNumber)
+      this.refresh()
+    },
+    refresh () {
+      this.$router.go(0)
+    },
+    deleteWorker (number) {
+      alert(number)
+    },
+    getTableData () {
+      this.$http.get('https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getAllWorkers').then(function (res) {
+        console.log(res)
+        this.allRows = res.body.data
+        this.worker_count = res.body.worker_count
+      }, function (res) {
+        console.log(res)
+      })
+    },
+    changePage (pageNum) {
+      this.page_num = pageNum
+    },
+    setSelectedData (selection) {
+      this.selectedData = selection
+    },
+    compareObject (obj1, obj2) {
+      let attrs1 = Object.keys(obj1)
+      let attrs2 = Object.keys(obj2)
+      console.log(obj1)
+      console.log(obj2)
+      if (attrs1.length !== attrs2.length) {
+        return false
+      }
+      for (let j = 0; j < attrs1.length; j++) {
+        let attrNames = attrs1[j]
+        if (obj1[attrNames] !== obj2[attrNames]) {
+          return false
+        }
+      }
+      return true
+    },
+    handleSelectAll () {
+      this.selectAll = !this.selectAll
+      this.$refs.table.selectAll(this.selectAll)
+    }
+  }
+}
 </script>
 
 <style scoped>
