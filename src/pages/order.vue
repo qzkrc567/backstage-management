@@ -6,10 +6,8 @@
             <div style="margin: 3% 0 0 5%">
                 名称：
                 <Input style="width: 15%;margin-right: 5%" v-model="searchContent1" placeholder="绑定名称搜索"/>
-                手机号：
-                <Input style="width: 15%;margin-right: 5%" v-model="searchContent2" placeholder="绑定手机号搜索"/>
                 时间：
-                <DatePicker confirm split-panels type="daterange" :value="dateRange" placeholder="选择订单日期范围" style="width: 20%"></DatePicker>
+                <DatePicker confirm split-panels type="daterange" v-model="dateRange" placeholder="选择订单日期范围" style="width: 20%"></DatePicker>
                 <Button style="margin-left: 5%" @click="searchOrders">搜索</Button>
             </div>
             <div style="margin: 0 4% 0 5%;margin-top: 2%">
@@ -30,7 +28,7 @@
 </template>
 
 <script>
-import NavBar from './navbar.vue'
+import NavBar from '../components/navbar.vue'
 export default {
   components: {
     NavBar
@@ -43,7 +41,6 @@ export default {
       dateRange: [],
       orderType: this.$route.query.orderType,
       searchContent1: '',
-      searchContent2: '',
       selectedData: [],
       columns: [
         {
@@ -128,7 +125,7 @@ export default {
     }
   },
   created () {
-    this.getTableData(1)
+    this.getTableData()
   },
   methods: {
     refresh () {
@@ -148,7 +145,7 @@ export default {
       return res
     },
     searchOrders () {
-      alert('search')
+      this.getTableData()
     },
     dateCompare (str1, str2) {
       var a = str1.split('-')
@@ -185,8 +182,16 @@ export default {
       this.rows = this.initRows
       this.rows = this.searchDate(this.rows, this.dateRange)
     },
-    getTableData (pageNum) {
-      this.$http.get('https://www.easy-mock.com/mock/5c833375e0e0f75c246237e4/example/mock', {params: {page_num: pageNum, order_type: this.$route.query.order_type}}).then(function (res) {
+    getTableData () {
+      this.$http.post(this.$baseUrl + '/order/getOrder',
+        {
+          pageNum: this.page_num,
+          orderType: this.$route.query.order_type,
+          size: 10,
+          orderNumber: this.searchContent1,
+          startDate: this.dateRange[0],
+          endDate: this.dateRange[1]
+        }).then(function (res) {
         console.log(res)
         this.rows = this.initRows = res.body.data
         this.order_count = res.body.order_count

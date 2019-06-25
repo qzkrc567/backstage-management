@@ -28,8 +28,8 @@
                     </div>
                     <div class="block-body">
                         <Table :columns="format" :data="data1"></Table>
-                        <div style="float: right">
-                            <Page :total="dataAmount" :page-size="8" :current="currentPage" @on-change="changePage"></Page>
+                        <div style="margin-top: 10px;height: 35px">
+                            <Page style="float: right" :total="dataAmount" :page-size="8" :current="currentPage" @on-change="changePage"></Page>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
 
 <script>
 
-import Navbar from './navbar'
+import Navbar from '../components/navbar'
 export default {
   name: 'ruleImport',
   components: {Navbar},

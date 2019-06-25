@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/components/index'
-import Order from '@/components/order'
-import OrderDetail from '@/components/orderDetail'
-import RuleImport from '@/components/ruleImport'
-import AccountInfo from '@/components/accountInfo'
-import AllWorkers from '@/components/allWorkers'
-import EditWorker from '@/components/editWorker'
-import Login from '@/components/login'
+import Index from '@/pages/index'
+import Order from '@/pages/order'
+import OrderDetail from '@/pages/orderDetail'
+import RuleImport from '@/pages/ruleImport'
+import AccountInfo from '@/pages/accountInfo'
+import AllWorkers from '@/pages/allWorkers'
+import EditWorker from '@/pages/editWorker'
+import Login from '@/pages/login'
 
 Vue.use(Router)
 

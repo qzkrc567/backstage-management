@@ -34,13 +34,13 @@
                         <Tabs  :animated="false" @on-click="changeTab">
                             <TabPane label="慧聪网对账" >
                                 <Table :columns="format" :data="datahc"></Table>
-                                <div style="float: right;">
+                                <div style="float: right;margin-top: 10px">
                                     <Page :current="currentPage" :total="dataAmounthc" :page-size="8" @on-change="changePagehc"></Page>
                                 </div>
                             </TabPane>
                             <TabPane label="华宇物流对账单">
                                 <Table :columns="format" :data="datahuayu"></Table>
-                                <div style="float: right;">
+                                <div style="float: right;margin-top: 10px">
                                     <Page :current="currentPage" :total="dataAmounthuayu" :page-size="8" @on-change="changePagehuayu"></Page>
                                 </div>
                             </TabPane>
@@ -111,7 +111,7 @@
 </template>
 
 <script>
-import Navbar from './navbar'
+import Navbar from '../components/navbar'
 export default {
   name: 'accountInfo',
   components: {Navbar},

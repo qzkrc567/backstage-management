@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import NavBar from './navbar.vue'
+import NavBar from '../components/navbar.vue'
 import uploadPicture from './uploadPicture'
 
 export default {
