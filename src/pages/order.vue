@@ -4,8 +4,8 @@
         <div class="content">
             <h2>订单管理</h2>
             <ContentBox icon="ios-apps" name="筛选">
-                名称：
-                <Input style="width: 15%;margin-right: 5%" v-model="searchContent1" placeholder="绑定名称搜索"/>
+                订单编号：
+                <Input style="width: 15%;margin-right: 5%" v-model="searchContent1" placeholder="输入订单编号"/>
                 时间：
                 <DatePicker confirm split-panels type="daterange" v-model="dateRange" placeholder="选择订单日期范围" style="width: 20%"></DatePicker>
                 <Button style="margin-left: 5%" @click="searchOrders">搜索</Button>
@@ -57,7 +57,7 @@ export default {
         {
           title: '用户名称',
           key: 'clientName',
-          width: 200
+          width: 100
         },
         {
           title: '货物名称',
@@ -71,6 +71,10 @@ export default {
           title: '订单状态',
           key: 'orderStatus',
           width: 85
+        },
+        {
+          title: '记录时间',
+          key: 'createTime'
         },
         {
           title: '实际价格',

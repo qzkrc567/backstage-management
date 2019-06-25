@@ -21,9 +21,9 @@
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../static/img/user.png" class="img-circle" alt="Avatar"> <span>test</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="../../static/img/user.png" class="img-circle" alt="Avatar"> <span>{{name}}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
               <ul class="dropdown-menu">
-                <li @click="info"><a><i class="lnr lnr-cog"></i> <span>个人资料</span></a></li>
+                <li style="display: none" @click="info"><a><i class="lnr lnr-cog"></i> <span>个人资料</span></a></li>
                 <li @click="logout"><a><i class="lnr lnr-exit"></i> <span>退出登录</span></a></li>
               </ul>
             </li>
@@ -36,8 +36,8 @@
       <div class="sidebar-scroll" style="position: relative">
         <nav>
           <ul class="nav">
-            <li><router-link :to="{path:'/'}" class="active"><i class="lnr lnr-home"></i> <span>首页</span></router-link></li>
-            <li>
+            <li v-if="role===0||role===1"><router-link :to="{path:'/'}" class="active"><i class="lnr lnr-home"></i> <span>首页</span></router-link></li>
+            <li v-if="role===0||role===1">
               <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>订单管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
               <div id="subPages" class="collapse ">
                 <ul class="nav">
@@ -47,7 +47,7 @@
                 </ul>
               </div>
             </li>
-              <li>
+              <li v-if="role===1">
                   <a href="#subPagesWorker" data-toggle="collapse" class="collapsed"><i class="lnr lnr-user"></i> <span>员工管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
                   <div id="subPagesWorker" class="collapse ">
                       <ul class="nav">
@@ -57,8 +57,8 @@
                   </div>
                   <!--                <router-link :to="{path:'/'}" class=""><i class="lnr lnr-user"></i> <span>员工管理</span></router-link>-->
               </li>
-            <li><router-link :to="{path:'/accountInfo'}" class=""><i class="lnr lnr-text-format"></i> <span>对账信息</span></router-link></li>
-            <li><router-link :to="{path:'/ruleImport'}" class=""><i class="lnr lnr-linearicons"></i> <span>规则导入</span></router-link></li>
+            <li v-if="role===1"><router-link :to="{path:'/accountInfo'}" class=""><i class="lnr lnr-text-format"></i> <span>对账信息</span></router-link></li>
+            <li v-if="role===0||role===1"><router-link :to="{path:'/ruleImport'}" class=""><i class="lnr lnr-linearicons"></i> <span>规则导入</span></router-link></li>
           </ul>
         </nav>
       </div>
@@ -71,9 +71,18 @@ export default {
   props: {
 
   },
+  data () {
+    return {
+      role: parseInt(this.$cookie.get('role')),
+      name: this.$cookie.get('name')
+    }
+  },
   methods: {
     logout () {
-      console.log('logout')
+      this.$cookie.remove('id')
+      this.$cookie.remove('name')
+      this.$cookie.remove('role')
+      this.$router.push('/')
     },
     info () {
       console.log('info')

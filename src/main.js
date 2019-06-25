@@ -7,6 +7,9 @@ import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import  VueResource  from 'vue-resource'
+import md5 from 'md5'
+import cookie from 'js-cookie'
+import dateformat from 'dateformat'
 
 import '../static/vendor/bootstrap/css/bootstrap.min.css'
 import '../static/vendor/font-awesome/css/font-awesome.min.css'
@@ -31,6 +34,9 @@ Vue.use(iView);
 Vue.use(VueResource);
 
 Vue.prototype.$baseUrl = 'http://192.168.0.128:8080';
+Vue.prototype.$md5 = md5;
+Vue.prototype.$cookie =cookie;
+Vue.prototype.$dateformat =dateformat;
 
 
 /* eslint-disable no-new */

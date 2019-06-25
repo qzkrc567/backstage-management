@@ -5,11 +5,11 @@
             <h2>{{editType===1?'编辑':'新建'}}员工</h2>
             <ContentBox icon="ios-menu" name="请填写员工信息">
                 <div class="info-block">
-                    <p class="title">账号信息：</p>
+                    <p class="title">基本信息：</p>
                     <div class="info-content">
                         <div class="info-item">
                             <span class="info-name required">工号</span>:
-                            <input type="text"  class="form-control info-input" v-model="workerInfo.id"/>
+                            <input type="text"  class="form-control info-input" :disabled="editType===1" v-model="workerInfo.id"/>
                         </div>
                         <div class="info-item">
                             <span class="info-name required">员工姓名</span>:
@@ -36,7 +36,7 @@
                             <span class="info-name">手机号码</span>:
                             <input type="text"  class="form-control info-input" v-model="workerInfo.phone"/>
                         </div>
-                        <div class="info-item">
+                        <div class="info-item" style="display: none">
                             <span class="info-name">头像</span>:
                             <uploadPicture class="info-input"></uploadPicture>
                         </div>
@@ -44,9 +44,9 @@
                             <span class="info-name">邮箱</span>:
                             <input type="text"  class="form-control info-input" v-model="workerInfo.email"/>
                         </div>
-                        <div class="info-item">
+                        <div class="info-item" v-if="editType===1">
                             <span class="info-name">创建时间</span>:
-                            <input type="text"  class="form-control info-input" v-model="workerInfo.createTime"/>
+                            <input type="text"  class="form-control info-input" disabled="" v-model="workerInfo.createTime"/>
                         </div>
                     </div>
                 </div>

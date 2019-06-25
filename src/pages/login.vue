@@ -10,8 +10,8 @@
             <div class="box-body">
                 <div class="box-body-head">登录</div>
                 <div class="box-body-main">
-                    <Input v-model="username" prefix="md-person" placeholder="请输入账号" clearable size="large"/>
-                    <Input v-model="password" type="password" prefix="md-lock" placeholder="请输入密码" clearable size="large"/>
+                    <Input v-model="id" prefix="md-person" placeholder="请输入账号" clearable size="large"/>
+                    <Input v-model="password" type="password" @keyup.enter.native="login" prefix="md-lock" placeholder="请输入密码" clearable size="large"/>
                     <Button class="btn-purple" size="large" shape="circle" @click="login">登录</Button>
                     <div class="box-body-foot">忘记密码请联系管理员</div>
                 </div>
@@ -25,7 +25,7 @@ export default {
   name: 'login',
   data () {
     return {
-      username: '',
+      id: '',
       password: ''
     }
   },
@@ -34,19 +34,20 @@ export default {
       if (this.username === '' || this.password === '') {
         this.$Message.warning('username or password cannot be null')
       } else {
-        this.$http.post('https://www.easy-mock.com/mock/5d063c2b19efbf55ebd39b4f/logistics/login',
+        this.$http.post(this.$baseUrl + '/user/login',
           {
-            username: this.username,
-            password: this.password
+            id: this.id,
+            passwd: this.$md5(this.password)
           })
           .then((response) => {
-            if (response.body.data === 'success') {
-              this.$Message.success('success')
-              setTimeout(() => {
-                this.$router.push('/')
-              }, 1000)
+            if (response.body.code === 1) {
+              // TODO 登录状态保存
+              this.$cookie.set('id', response.body.data.id)
+              this.$cookie.set('name', response.body.data.name)
+              this.$cookie.set('role', response.body.data.role)
+              this.$router.push('/index')
             } else {
-              this.$Message.error('fail')
+              this.$Message.error(response.body.msg)
             }
           }).catch(response => {
             console.log(response)
