@@ -1,60 +1,45 @@
 <template>
     <div>
         <Navbar></Navbar>
-        <div class="block-main">
-            <div class="title">
-                <h2>对账信息</h2>
-            </div>
-            <Row>
-                <div class="block">
-                    <div class="block-title">
-                        <Icon class="ivu-icon-ios-apps" size="large"></Icon>
-                        导入
-                    </div>
-                    <div class="block-body">
-                        <Button @click="hcModal=true" class="btn-purple" size="large" >
-                            <Icon class="ivu-icon-ios-funnel"></Icon>
-                            导入慧聪网对账单
-                        </Button>
-                        <Button @click="huayuModal=true" class="btn-purple" size="large" >
-                            <Icon class="ivu-icon-ios-funnel"></Icon>
-                            导入华宇物流对账单
-                        </Button>
-                        <Button @click="createInfo" class="btn-purple" size="large" >
-                            <Icon class="ivu-icon-ios-funnel"></Icon>
-                            生成对账信息
-                        </Button>
-                    </div>
-                </div>
-            </Row>
-            <br>
-            <Row>
-                <div class="block">
-                    <div class="block-body">
-                        <Tabs  :animated="false" @on-click="changeTab">
-                            <TabPane label="慧聪网对账" >
-                                <Table :columns="format" :data="datahc"></Table>
-                                <div style="float: right;margin-top: 10px">
-                                    <Page :current="currentPage" :total="dataAmounthc" :page-size="8" @on-change="changePagehc"></Page>
-                                </div>
-                            </TabPane>
-                            <TabPane label="华宇物流对账单">
-                                <Table :columns="format" :data="datahuayu"></Table>
-                                <div style="float: right;margin-top: 10px">
-                                    <Page :current="currentPage" :total="dataAmounthuayu" :page-size="8" @on-change="changePagehuayu"></Page>
-                                </div>
-                            </TabPane>
-<!--                            <TabPane label="对账信息">-->
-<!--                                <div v-if="allDataerror.length!==0">对账完成，以下为异常账单</div>-->
-<!--                                <Table :columns="format" :data="dataerror"></Table>-->
-<!--                                <div style="float: right;">-->
-<!--                                    <Page :current="currentPage" :total="dataAmounterror" :page-size="8" @on-change="changePageerror"></Page>-->
-<!--                                </div>-->
-<!--                            </TabPane>-->
-                        </Tabs>
-                    </div>
-                </div>
-            </Row>
+        <div class="content">
+            <h2>对账信息</h2>
+            <ContentBox icon="ios-apps" name="导入">
+                <Button @click="hcModal=true" class="btn-purple" size="large" >
+                    <Icon class="ivu-icon-ios-funnel"></Icon>
+                    导入慧聪网对账单
+                </Button>
+                <Button @click="huayuModal=true" class="btn-purple" size="large" >
+                    <Icon class="ivu-icon-ios-funnel"></Icon>
+                    导入华宇物流对账单
+                </Button>
+                <Button @click="createInfo" class="btn-purple" size="large" >
+                    <Icon class="ivu-icon-ios-funnel"></Icon>
+                    生成对账信息
+                </Button>
+            </ContentBox>
+            <ContentBox class="block-body">
+                <Tabs  :animated="false" @on-click="changeTab">
+                    <TabPane label="慧聪网对账"  style="padding-top: 10px">
+                        <Table :columns="format" :data="datahc"></Table>
+                        <div style="float: right;margin-top: 20px">
+                            <Page show-elevator :current="currentPage" :total="dataAmounthc" :page-size="8" @on-change="changePagehc"></Page>
+                        </div>
+                    </TabPane>
+                    <TabPane label="华宇物流对账单" style="padding-top: 10px">
+                        <Table :columns="format" :data="datahuayu"></Table>
+                        <div style="float: right;margin-top: 20px">
+                            <Page show-elevator :current="currentPage" :total="dataAmounthuayu" :page-size="8" @on-change="changePagehuayu"></Page>
+                        </div>
+                    </TabPane>
+                    <!--                            <TabPane label="对账信息">-->
+                    <!--                                <div v-if="allDataerror.length!==0">对账完成，以下为异常账单</div>-->
+                    <!--                                <Table :columns="format" :data="dataerror"></Table>-->
+                    <!--                                <div style="float: right;">-->
+                    <!--                                    <Page :current="currentPage" :total="dataAmounterror" :page-size="8" @on-change="changePageerror"></Page>-->
+                    <!--                                </div>-->
+                    <!--                            </TabPane>-->
+                </Tabs>
+            </ContentBox>
 
             <Modal
                 title="选择文件"
@@ -74,11 +59,10 @@
                         </Upload>
                     </label>
                 </div>
-                <div style="margin-left: 33%">
+                <div slot="footer">
                     <Button class="btn-confirm" @click="uploadhc">确认</Button>
                     <Button class="btn-cancel" @click="cancelhc">取消</Button>
                 </div>
-                <div slot="footer" style="display: none;"></div>
             </Modal>
             <Modal
                 title="选择文件"
@@ -98,11 +82,10 @@
                         </Upload>
                     </label>
                 </div>
-                <div style="margin-left: 33%">
+                <div slot="footer">
                     <Button class="btn-confirm"  @click="uploadhuayu">确认</Button>
                     <Button class="btn-cancel"  @click="cancelhuayu">取消</Button>
                 </div>
-                <div slot="footer" style="display: none;"></div>
             </Modal>
 
         </div>
@@ -111,10 +94,11 @@
 </template>
 
 <script>
-import Navbar from '../components/navbar'
+import Navbar from '../components/NavBar'
+import ContentBox from '../components/ContentBox'
 export default {
   name: 'accountInfo',
-  components: {Navbar},
+  components: {Navbar, ContentBox},
   data () {
     return {
       format: [
@@ -321,10 +305,6 @@ export default {
     .block-title{
         color: #8D99A8;
         padding: 20px;
-    }
-
-    .block-body{
-        padding: 10px;
     }
     .block-body>>>.ivu-tabs-ink-bar{
         background-color: #9137F3;

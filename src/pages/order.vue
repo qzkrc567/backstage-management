@@ -1,16 +1,16 @@
 <template>
     <div>
         <NavBar @refresh="refresh"></NavBar>
-        <div style="position: absolute;left: 270px;right: 0;bottom: 0;top: 81px">
-            <h2 style="margin: 1% 0 0 1%">订单管理</h2>
-            <div style="margin: 3% 0 0 5%">
+        <div class="content">
+            <h2>订单管理</h2>
+            <ContentBox icon="ios-apps" name="筛选">
                 名称：
                 <Input style="width: 15%;margin-right: 5%" v-model="searchContent1" placeholder="绑定名称搜索"/>
                 时间：
                 <DatePicker confirm split-panels type="daterange" v-model="dateRange" placeholder="选择订单日期范围" style="width: 20%"></DatePicker>
                 <Button style="margin-left: 5%" @click="searchOrders">搜索</Button>
-            </div>
-            <div style="margin: 0 4% 0 5%;margin-top: 2%">
+            </ContentBox>
+            <ContentBox icon="ios-menu" name="订单列表">
                 <Table stripe border :columns="columns" :data="rows" ref="table" @on-selection-change="setSelectedData"></Table>
                 <br>
                 <div style="margin-bottom: 5%">
@@ -19,24 +19,26 @@
                     <Button type="primary" @click="exportData(1)"><Icon type="ios-download-outline"></Icon>导出全部数据</Button>
                     <Button type="primary" @click="exportData(2)"><Icon type="ios-download-outline"></Icon>导出选择数据</Button>
                     <div style="float: right;vertical-align: center">
-                        <Page style="font-size: 10px" simple :total="this.order_count" :current="1" @on-change="changePage"></Page>
+                        <Page style="font-size: 10px" show-elevator :total="this.order_count" :current="1" @on-change="changePage"></Page>
                     </div>
                 </div>
-            </div>
+            </ContentBox>
         </div>
     </div>
 </template>
 
 <script>
-import NavBar from '../components/navbar.vue'
+import NavBar from '../components/NavBar.vue'
+import ContentBox from '../components/ContentBox'
 export default {
   components: {
+    ContentBox,
     NavBar
   },
   name: 'HelloWorld',
   data () {
     return {
-      page_num: 1,
+      page_num: 0,
       order_count: 150,
       dateRange: [],
       orderType: this.$route.query.orderType,
@@ -50,45 +52,45 @@ export default {
         },
         {
           title: '订单编号',
-          key: 'order_number'
+          key: 'orderNumber'
         },
         {
           title: '用户名称',
-          key: 'client_name',
+          key: 'clientName',
           width: 200
         },
         {
           title: '货物名称',
-          key: 'goods_name'
+          key: 'goodsName'
         },
         {
           title: '物流公司名称',
-          key: 'express_company'
+          key: 'expressCompany'
         },
         {
           title: '订单状态',
-          key: 'order_status',
+          key: 'orderStatus',
           width: 85
         },
         {
           title: '实际价格',
-          key: 'actual_price'
+          key: 'actualPrice'
         },
         {
           title: '发货人区域',
-          key: 'sender_area'
+          key: 'senderArea'
         },
         {
           title: '发货人姓名',
-          key: 'sender_name'
+          key: 'senderName'
         },
         {
           title: '收货人区域',
-          key: 'receiver_area'
+          key: 'receiverArea'
         },
         {
           title: '收货人姓名',
-          key: 'receiver_name'
+          key: 'receiverName'
         },
         {
           title: '操作',
@@ -110,7 +112,7 @@ export default {
                     this.$router.push({
                       path: '/orderDetail',
                       query: {
-                        order_number: params.row.order_number
+                        order_number: params.row.orderNumber
                       }
                     })
                   }
@@ -193,8 +195,8 @@ export default {
           endDate: this.dateRange[1]
         }).then(function (res) {
         console.log(res)
-        this.rows = this.initRows = res.body.data
-        this.order_count = res.body.order_count
+        this.rows = this.initRows = res.body.data.content
+        this.order_count = res.body.data.totalElements
       }, function (res) {
         console.log(res)
       })

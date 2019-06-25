@@ -1,9 +1,9 @@
 <template>
     <div>
         <NavBar></NavBar>
-        <div style="position: absolute;left: 270px;right: 0;bottom: 0;top: 81px">
-            <h2 style="margin: 1% 0 0 1%">全部员工</h2>
-            <div style="margin: 3% 0 0 5%">
+        <div class="content">
+            <h2>全部员工</h2>
+            <ContentBox icon="ios-apps" name="筛选">
                 选择角色：
                 <select style="width: 15%;margin-right: 5%;display: inline-block;" class="form-control" v-model="selectType">
                     <option value="all" selected>全部</option>
@@ -12,35 +12,32 @@
                 </select>
                 输入搜索：
                 <input style="width: 15%;margin-right: 5%;display: inline-block;" type="text" class="form-control" placeholder="输入员工姓名或账号" v-model="selectString">
-            </div>
-            <div style="margin: 0 4% 0 5%;margin-top: 2%">
-                <div class="row" style="margin-left:0px">
-                    <h4 class="panel-title">员工列表</h4>
-                    <div style="float:right;margin-right:30px">
-                        <router-link :to="{path:'/editWorker'}" query="work_number:-1">
-                            <button type="button" class="btn btn-default"><i class="fa fa-plus-square"></i> 新增员工 </button>
-                        </router-link>
-                    </div>
+            </ContentBox>
+            <ContentBox icon="ios-menu" name="员工列表">
+                <div style="width: 100%;margin-bottom: 10px;text-align: right">
+                    <router-link :to="{path:'/editWorker'}" query="work_number:-1">
+                        <button type="button" class="btn btn-default"><i class="fa fa-plus-square"></i> 新增员工 </button>
+                    </router-link>
                 </div>
-                <div style="height:20px"></div>
                 <Table stripe border :columns="columns" :data="showRows" ref="table" @on-selection-change="setSelectedData"></Table>
-                <br>
-                <div style="margin-bottom: 5%">
+                <div style="margin: 10px">
                     <Button class="btn btn-primary" @click="handleSelectAll()">全选</Button>
                     <Button class="btn btn-danger" @click="deleteSelected()">批量删除</Button>
                     <div style="float: right;vertical-align: center">
-                        <Page style="font-size: 10px" simple :page-size="this.pageSize" :total="this.page_count" :current="1" @on-change="changePage"></Page>
+                        <Page show-elevator style="font-size: 10px" simple :page-size="this.pageSize" :total="this.page_count" :current="1" @on-change="changePage"></Page>
                     </div>
                 </div>
-            </div>
+            </ContentBox>
         </div>
     </div>
 </template>
 
 <script>
-import NavBar from '../components/navbar.vue'
+import NavBar from '../components/NavBar.vue'
+import ContentBox from '../components/ContentBox'
 export default {
   components: {
+    ContentBox,
     NavBar
   },
   name: 'AllWorkers',

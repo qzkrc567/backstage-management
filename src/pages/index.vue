@@ -1,12 +1,9 @@
 <template>
     <div>
         <NavBar></NavBar>
-        <div style="position: absolute;left: 270px;right: 0;bottom: 0;top: 81px">
-            <h2 style="margin: 1% 0 0 1%">首页</h2>
-            <div style="margin-left:30px;margin-top:20px;margin-right:20px" class="panel panel-headline">
-                <div class="panel-heading">
-                    <h5 class="panel-title">订单概况</h5>
-                </div>
+        <div class="content">
+            <h2>首页</h2>
+            <ContentBox icon="ios-apps" name="订单概况">
                 <div class="row">
                     <div class="panel-body">
                         <div class="col-md-3">
@@ -47,57 +44,55 @@
                         </div>
                     </div>
                 </div>
-                <div style="margin-left:30px;margin-top:20px;margin-right:20px" class="panel-heading">
-                    <div class="row">
-                        <h4 class="panel-title">收入趋势</h4>
-                    </div>
-                    <div class="row" style="margin-top:25px">
-                        <div v-show="showMonth === true">
-                            <div style="float:left;margin-left:40px;font-weight: 800">
-                                本月订单总数：{{monthOrderNum}}
-                            </div>
-                            <div style="float:left;margin-left:50px;font-weight: 800">
-                                本月订单总额：{{monthOrderMoney}}
-                            </div>
-                        </div>
-                        <div v-show="showMonth === false">
-                            <div style="float:left;margin-left:40px;font-weight: 800">
-                                本周订单总数：{{weekOrderNum}}
-                            </div>
-                            <div style="float:left;margin-left:50px;font-weight: 800">
-                                本周订单总额：{{weekOrderMoney}}
-                            </div>
-                        </div>
+            </ContentBox>
+            <ContentBox icon="ios-trending-up" name="收入趋势">
 
-                        <div style="float:right;margin-right:50px">
-                            <button type="text" @click="selectweek" :style="weekstyle">
-                                本周
-                            </button> |
-                            <button type="text" @click="selectmonth" :style="monthstyle">
-                                本月
-                            </button>
+                <div class="row" style="margin-top:25px">
+                    <div v-show="showMonth === true">
+                        <div style="float:left;margin-left:40px;font-weight: 800">
+                            本月订单总数：{{monthOrderNum}}
+                        </div>
+                        <div style="float:left;margin-left:50px;font-weight: 800">
+                            本月订单总额：{{monthOrderMoney}}
                         </div>
                     </div>
-                </div>
-                <div class="panel-body">
-                    <div id="echart-month"
-                         style="border-radius: 5px;margin-top: 25px;background: #fff" v-show="showMonth === true">
-                        <chart ref="chart1" :options="monthOptions" :auto-resize="true" style="width:1100px;height:500px"></chart>
+                    <div v-show="showMonth === false">
+                        <div style="float:left;margin-left:40px;font-weight: 800">
+                            本周订单总数：{{weekOrderNum}}
+                        </div>
+                        <div style="float:left;margin-left:50px;font-weight: 800">
+                            本周订单总额：{{weekOrderMoney}}
+                        </div>
                     </div>
-                    <div id="echart-week"
-                         style="border-radius: 5px;margin-top: 25px;background: #fff" v-show="showMonth === false">
-                        <chart ref="chart1" :options="weekOptions" :auto-resize="true" style="width:1100px;height:500px"></chart>
+
+                    <div style="float:right;margin-right:50px">
+                        <Button type="text" @click="selectweek" :style="weekstyle">
+                            本周
+                        </Button> |
+                        <Button type="text" @click="selectmonth" :style="monthstyle">
+                            本月
+                        </Button>
                     </div>
                 </div>
-            </div>
+                <div id="echart-month"
+                     style="border-radius: 5px;margin-top: 25px;background: #fff" v-show="showMonth === true">
+                    <chart ref="chart1" :options="monthOptions" :auto-resize="true" style="width:1100px;height:500px"></chart>
+                </div>
+                <div id="echart-week"
+                     style="border-radius: 5px;margin-top: 25px;background: #fff" v-show="showMonth === false">
+                    <chart ref="chart1" :options="weekOptions" :auto-resize="true" style="width:1100px;height:500px"></chart>
+                </div>
+            </ContentBox>
         </div>
     </div>
 </template>
 
 <script>
-import NavBar from '../components/navbar.vue'
+import NavBar from '../components/NavBar.vue'
+import ContentBox from '../components/ContentBox'
 export default {
   components: {
+    ContentBox,
     NavBar
   },
   name: 'HelloWorld',
@@ -107,8 +102,7 @@ export default {
         'color': 'black'
       },
       monthstyle: {
-        'color': 'blue',
-        'text-shadow': '0 0 1px black'
+        'color': 'blue'
       },
       todayOrderNum: 0,
       todayPredictIncome: 0,

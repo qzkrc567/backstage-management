@@ -1,95 +1,72 @@
 <template>
     <div>
         <NavBar></NavBar>
-        <div style="position: absolute;left: 270px;right: 0;bottom: 0;top: 81px">
-            <div v-show="editType===0">
-                <h2 style="margin: 1% 0 0 1%">新建员工</h2>
-            </div>
-            <div v-show="editType===1">
-                <h2 style="margin: 1% 0 0 1%">编辑员工</h2>
-            </div>
-            <div style="margin-left:30px;margin-top:20px;margin-right:20px" class="panel panel-headline">
-                <div class="panel-heading">
-                    <p class="panel-subtitle">请填写员工信息</p>
-                </div>
-                <div class="panel-body">
-                    <div>
-                        <p style="font-weight: 700;font-size:18px">账号信息：</p>
-                        <div style="display:grid;margin-left:3%">
-                            <div style="display:inline-flex;margin-top: 1%;text-align:center">
-                                <p style="width:8%;margin-top:0.7%"><span>员工姓名</span><span
-                                    style="color:#FF0000;">*</span><span>：</span></p>
-                                <input type="text" class="form-control" style="width:20%;"
-                                       v-model="workerInfo.name"/>
-                            </div>
-                            <div style="display:inline-flex;margin-top: 1%;text-align:center">
-                                <p style="width:8%;margin-top:0.7%"><span>工号</span><span style="color:#FF0000;">*</span><span>：</span>
-                                </p>
-                                <input type="text" class="form-control" style="width:20%;"
-                                       v-model="workerInfo.id"/>
-                            </div>
-                            <div style="display:inline-flex;margin-top: 1%;text-align:center">
-                                <p style="width:8%;margin-top:0.7%"><span>密码</span><span style="color:#FF0000;">*</span><span>：</span>
-                                </p>
-                                <input type="text" class="form-control" style="width:20%;" placeholder="请输入至少7位，数字或英文"
-                                       v-model="workerInfo.passwd"/>
-                            </div>
-                            <div style="display:inline-flex;margin-top: 1%;text-align:center">
-                                <p style="width:8%;margin-top:0.7%"><span>角色</span><span style="color:#FF0000;">*</span><span>：</span>
-                                </p>
-                                <select class="form-control" style="width:20%;" v-model="workerInfo.role">
-                                    <option value="unknown" selected>请选择</option>
-                                    <option value="1">管理员</option>
-                                    <option value="0">普通用户</option>
-                                </select>
-                            </div>
+        <div class="content">
+            <h2>{{editType===1?'编辑':'新建'}}员工</h2>
+            <ContentBox icon="ios-menu" name="请填写员工信息">
+                <div class="info-block">
+                    <p class="title">账号信息：</p>
+                    <div class="info-content">
+                        <div class="info-item">
+                            <span class="info-name required">工号</span>:
+                            <input type="text"  class="form-control info-input" v-model="workerInfo.id"/>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-name required">员工姓名</span>:
+                            <input type="text"  class="form-control info-input" v-model="workerInfo.name"/>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-name required">密码</span>:
+                            <input type="text"  class="form-control info-input" placeholder="请输入至少7位，数字或英文" v-model="workerInfo.passwd"/>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-name required">角色</span>:
+                            <select class="form-control info-input" v-model="workerInfo.role">
+                                <option value="unknown" selected>请选择</option>
+                                <option value="1">管理员</option>
+                                <option value="0">普通用户</option>
+                            </select>
                         </div>
                     </div>
-                    <div style="margin-top:5%">
-                        <p style="font-weight: 700;font-size:18px">其他信息：</p>
-                        <div style="display:grid;margin-left:3%">
-                            <div style="display:inline-flex;margin-top: 1%;text-align:center">
-                                <p style="width:8%;margin-top:0.7%"><span>手机号码：</span></p>
-                                <input type="text" class="form-control" style="width:20%;"
-                                       v-model="workerInfo.phone"/>
-                            </div>
-                            <div style="display:inline-flex;margin-top: 1%;text-align:center">
-                                <p style="width:8%;margin-top:0.7%"><span>头像：</span></p>
-<!--                                <Upload :before-upload="handleUpload" :action="doUpload">-->
-<!--                                    <button type="button" class="btn btn-info"><i class="fa fa-plus-square"></i>上传头像</button>-->
-
-                                <uploadPicture></uploadPicture>
-
-                            </div>
-                            <div style="display:inline-flex;margin-top: 1%;text-align:center">
-                                <p style="width:8%;margin-top:0.7%"><span>简介：</span></p>
-                                <textarea class="form-control" style="width:50%;height:180px"
-                                          v-model="workerInfo.email"></textarea>
-                            </div>
+                </div>
+                <div class="info-block">
+                    <p class="title">其他信息：</p>
+                    <div class="info-content">
+                        <div class="info-item">
+                            <span class="info-name">手机号码</span>:
+                            <input type="text"  class="form-control info-input" v-model="workerInfo.phone"/>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-name">头像</span>:
+                            <uploadPicture class="info-input"></uploadPicture>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-name">邮箱</span>:
+                            <input type="text"  class="form-control info-input" v-model="workerInfo.email"/>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-name">创建时间</span>:
+                            <input type="text"  class="form-control info-input" v-model="workerInfo.createTime"/>
                         </div>
                     </div>
-                    <div style="margin-top:5%;text-align:center">
-                            <button type="button" class="btn btn-success" @click="saveInfo()" style="margin-right:10%"><i
-                                class="fa fa-check-circle" style="margin-right: 4px;"></i>保存
-                            </button>
-
-                            <button type="button" class="btn btn-danger" @click="cancelChange()"><i class="fa fa-times-circle"
-                                                                            style="margin-right: 4px;"
-                                                                            ></i>取消
-                            </button>
-                    </div>
                 </div>
-            </div>
+                <div style="margin-top:25px;text-align:center">
+                    <Button icon="ios-checkmark-circle" type="success" size="large" @click="saveInfo()">保存</Button>
+                    <Button icon="ios-close-circle" type="error" size="large" style="margin-left: 50px" @click="cancelChange()">取消</Button>
+                </div>
+            </ContentBox>
         </div>
     </div>
 </template>
 
 <script>
-import NavBar from '../components/navbar.vue'
-import uploadPicture from './uploadPicture'
+import NavBar from '../components/NavBar.vue'
+import uploadPicture from '../components/UploadPicture'
+import ContentBox from '../components/ContentBox'
 
 export default {
   components: {
+    ContentBox,
     NavBar,
     uploadPicture
   },
@@ -181,5 +158,33 @@ export default {
         margin-bottom: 0;
         font-size: 16px;
         color: #8D99A8;
+    }
+    .info-block{
+        width: 100%;
+        border-top: 1px solid #eee;
+        margin-bottom: 20px;
+    }
+    .info-block .title{
+        border-left: 2px solid purple;
+        padding-left: 20px;
+        margin: 15px 0;
+    }
+    .info-item{
+        padding: 15px 0;
+        width: 100%;
+    }
+    .info-name{
+        display: inline-block;
+        width: 150px;
+        text-align: right;
+    }
+    .info-name.required:after{
+        content: '*';
+        color: red;
+    }
+    .info-input{
+        width: 300px;
+        display: inline-block;
+        margin-left: 20px;
     }
 </style>

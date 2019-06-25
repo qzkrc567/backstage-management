@@ -1,39 +1,20 @@
 <template>
     <div>
         <Navbar></Navbar>
-        <div class="block-main">
-            <div class="title">
+        <div class="content">
                 <h2>规则导入</h2>
-            </div>
-            <Row>
-                <div class="block">
-                    <div class="block-title">
-                        <Icon class="ivu-icon-ios-apps"></Icon>
-                        规则导入
-                    </div>
-                    <div class="block-body">
-                        <Button @click="importModal=true" class="btn-purple" size="large" >
-                        <Icon class="ivu-icon-ios-funnel"></Icon>
-                            导入规则文件
-                        </Button>
-                    </div>
+            <ContentBox icon="ios-apps" name="规则导入">
+                <Button @click="importModal=true" class="btn-purple" size="large" >
+                    <Icon class="ivu-icon-ios-funnel"></Icon>
+                    导入规则文件
+                </Button>
+            </ContentBox>
+            <ContentBox icon="ios-menu" name="物流运费规则">
+                <Table :columns="format" :data="data1"></Table>
+                <div style="margin-top: 10px;height: 35px">
+                    <Page show-elevator style="float: right" :total="dataAmount" :page-size="8" :current="currentPage" @on-change="changePage"></Page>
                 </div>
-            </Row>
-            <br>
-            <Row>
-                <div class="block">
-                    <div class="block-title">
-                        <Icon class="ivu-icon-md-menu"></Icon>
-                        物理运费规则
-                    </div>
-                    <div class="block-body">
-                        <Table :columns="format" :data="data1"></Table>
-                        <div style="margin-top: 10px;height: 35px">
-                            <Page style="float: right" :total="dataAmount" :page-size="8" :current="currentPage" @on-change="changePage"></Page>
-                        </div>
-                    </div>
-                </div>
-            </Row>
+            </ContentBox>
 
             <Modal
                 title="规则导入"
@@ -53,11 +34,10 @@
                         </Upload>
                     </label>
                 </div>
-                <div style="margin-left: 33%">
+                <div slot="footer">
                     <Button class="btn-confirm" @click="upload" :loading="loadingStatus">确认</Button>
                     <Button class="btn-cancel" @click="cancel">取消</Button>
                 </div>
-                <div slot="footer" style="display: none;"></div>
             </Modal>
 
         </div>
@@ -67,10 +47,11 @@
 
 <script>
 
-import Navbar from '../components/navbar'
+import Navbar from '../components/NavBar'
+import ContentBox from '../components/ContentBox'
 export default {
   name: 'ruleImport',
-  components: {Navbar},
+  components: {ContentBox, Navbar},
   data () {
     return {
       format: [

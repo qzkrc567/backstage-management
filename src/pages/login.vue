@@ -5,7 +5,7 @@
                 <div>
                     <Icon type="md-car"/>
                 </div>
-                xxxx管理系统登录
+                慧聪物流管理系统登录
             </div>
             <div class="box-body">
                 <div class="box-body-head">登录</div>
