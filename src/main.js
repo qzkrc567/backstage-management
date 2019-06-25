@@ -28,7 +28,10 @@ Vue.component('chart', ECharts)
 
 Vue.config.productionTip = false;
 Vue.use(iView);
-Vue.use(VueResource)
+Vue.use(VueResource);
+
+Vue.prototype.$baseUrl = 'http://192.168.0.128:8080';
+
 
 /* eslint-disable no-new */
 new Vue({

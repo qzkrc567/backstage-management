@@ -26,21 +26,21 @@
                                 <p style="width:8%;margin-top:0.7%"><span>工号</span><span style="color:#FF0000;">*</span><span>：</span>
                                 </p>
                                 <input type="text" class="form-control" style="width:20%;"
-                                       v-model="workerInfo.number"/>
+                                       v-model="workerInfo.id"/>
                             </div>
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>密码</span><span style="color:#FF0000;">*</span><span>：</span>
                                 </p>
                                 <input type="text" class="form-control" style="width:20%;" placeholder="请输入至少7位，数字或英文"
-                                       v-model="workerInfo.password"/>
+                                       v-model="workerInfo.passwd"/>
                             </div>
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>角色</span><span style="color:#FF0000;">*</span><span>：</span>
                                 </p>
-                                <select class="form-control" style="width:20%;" v-model="workerInfo.type">
+                                <select class="form-control" style="width:20%;" v-model="workerInfo.role">
                                     <option value="unknown" selected>请选择</option>
-                                    <option value="admin">管理员</option>
-                                    <option value="normal">普通用户</option>
+                                    <option value="1">管理员</option>
+                                    <option value="0">普通用户</option>
                                 </select>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>手机号码：</span></p>
                                 <input type="text" class="form-control" style="width:20%;"
-                                       v-model="workerInfo.telephone"/>
+                                       v-model="workerInfo.phone"/>
                             </div>
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>头像：</span></p>
@@ -64,21 +64,19 @@
                             <div style="display:inline-flex;margin-top: 1%;text-align:center">
                                 <p style="width:8%;margin-top:0.7%"><span>简介：</span></p>
                                 <textarea class="form-control" style="width:50%;height:180px"
-                                          v-model="workerInfo.aboutInfo"></textarea>
+                                          v-model="workerInfo.email"></textarea>
                             </div>
                         </div>
                     </div>
                     <div style="margin-top:5%;text-align:center">
-                        <router-link :to="{path:'/allWorkers'}" @click.native="refresh">
-                            <button type="button" class="btn btn-success" style="margin-right:10%"><i
-                                class="fa fa-check-circle" style="margin-right: 4px;" @click="saveInfo"></i>保存
+                            <button type="button" class="btn btn-success" @click="saveInfo()" style="margin-right:10%"><i
+                                class="fa fa-check-circle" style="margin-right: 4px;"></i>保存
                             </button>
 
-                            <button type="button" class="btn btn-danger"><i class="fa fa-times-circle"
+                            <button type="button" class="btn btn-danger" @click="cancelChange()"><i class="fa fa-times-circle"
                                                                             style="margin-right: 4px;"
-                                                                            @click="cancelChange"></i>取消
+                                                                            ></i>取消
                             </button>
-                        </router-link>
                     </div>
                 </div>
             </div>
@@ -105,11 +103,12 @@ export default {
       filename: '',
       workerInfo: {
         name: '',
-        number: '',
-        password: '',
-        type: 'unknown',
-        telephone: '',
-        aboutInfo: ''
+        id: '',
+        passwd: '',
+        role: 'unknown',
+        phone: '',
+        email: '',
+        createTime: ''
       }
     }
   },
@@ -118,12 +117,12 @@ export default {
   },
   methods: {
     getWorkerData () {
-      let number = this.$route.query.number
+      let number = this.$route.query.id
       if (number == null) {
         this.editType = 0
       } else {
         this.editType = 1
-        this.$http.get('https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getWorkerDetail', {params: {worker_number: this.$route.query.number}}).then(function (res) {
+        this.$http.get(this.$baseUrl + '/user/getDetail', {params: {id: this.$route.query.id}}).then(function (res) {
           console.log(res)
           this.workerInfo = res.body.data
         }, function (res) {
@@ -148,12 +147,30 @@ export default {
       }
     },
     saveInfo () {
-      console.log(this.editType)
-      console.log(this.workerInfo)
+      this.$http.post(this.$baseUrl + '/user/updateUser',
+        {
+          id: this.workerInfo.id,
+          name: this.workerInfo.name,
+          passwd: this.workerInfo.passwd,
+          role: this.workerInfo.role,
+          phone: this.workerInfo.phone,
+          email: this.workerInfo.email
+        })
+        .then((response) => {
+          if (response.body.code === 1) {
+            this.$Message.success(response.body.msg)
+            setTimeout(() => {
+              this.$router.push('/allWorkers')
+            }, 1000)
+          } else {
+            this.$Message.error(response.body.msg)
+          }
+        }).catch(response => {
+          console.log(response)
+        })
     },
     cancelChange () {
-      console.log(this.editType)
-      console.log('cancel')
+      this.$router.go(-1)
     }
   }
 }

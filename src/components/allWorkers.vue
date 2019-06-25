@@ -61,7 +61,7 @@ export default {
         },
         {
           title: '工号',
-          key: 'number',
+          key: 'id',
           width: '100%'
         },
         {
@@ -71,13 +71,16 @@ export default {
         },
         {
           title: '手机',
-          key: 'tel',
+          key: 'phone',
           width: '130%'
         },
         {
           title: '角色',
-          key: 'type',
-          width: '100%'
+          key: 'role',
+          width: '100%',
+          render: (h, params) => {
+            return h('span', {}, params.row.role === 1 ? '管理员' : '普通用户')
+          }
         },
         {
           title: '邮箱',
@@ -85,7 +88,7 @@ export default {
         },
         {
           title: '添加时间',
-          key: 'time',
+          key: 'createTime',
           width: '180%'
         },
         {
@@ -107,7 +110,7 @@ export default {
                     this.$router.push({
                       path: '/editWorker',
                       query: {
-                        number: params.row.number
+                        id: params.row.id
                       }
                     })
                   }
@@ -122,7 +125,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.deleteWorker(params.row.number)
+                    this.deleteWorker(params.row.id)
                     // this.$router.push({
                     //     path: '/editWorker',
                     //     query: {
@@ -161,13 +164,13 @@ export default {
           })
         } else {
           this.allRows.forEach(item => {
-            var selectTypeStr = '管理员'
+            var selectType = -1
             if (this.selectType === 'admin') {
-              selectTypeStr = '管理员'
+              selectType = 1
             } else {
-              selectTypeStr = '普通用户'
+              selectType = 0
             }
-            if (item.type === selectTypeStr) {
+            if (item.role === selectType) {
               let strNumber = '' + item.number
               let strName = '' + item.name
               if (strNumber.indexOf(this.selectString) !== -1 || strName.indexOf(this.selectString) !== -1) {
@@ -190,19 +193,35 @@ export default {
       }
       let listDeleteNumber = []
       this.selectedData.forEach(item => {
-        listDeleteNumber.push(item.number)
+        listDeleteNumber.push(item.id)
       })
       console.log(listDeleteNumber)
-      this.refresh()
+      this.deleteUsers(listDeleteNumber)
+      this.getTableData()
     },
     refresh () {
       this.$router.go(0)
     },
-    deleteWorker (number) {
-      alert(number)
+    deleteWorker (id) {
+      // TODO 让用户确认一下
+      this.deleteUsers([id])
+    },
+    deleteUsers (ids) {
+      this.$http.post(this.$baseUrl + '/user/deleteUsers',
+        ids)
+        .then((response) => {
+          if (response.body.code === 1) {
+            this.$Message.success(response.body.msg)
+            this.getTableData()
+          } else {
+            this.$Message.error(response.body.msg)
+          }
+        }).catch(response => {
+          console.log(response)
+        })
     },
     getTableData () {
-      this.$http.get('https://www.easy-mock.com/mock/5d0e50885f349b4d9c702f46/index/getAllWorkers').then(function (res) {
+      this.$http.get(this.$baseUrl + '/user/getAll').then(function (res) {
         console.log(res)
         this.allRows = res.body.data
         this.worker_count = res.body.worker_count
