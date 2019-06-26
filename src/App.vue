@@ -21,8 +21,8 @@ export default {
     }
     h2{
         border-left: 5px solid purple;
-        padding: 0 0 0 15px;
-        font-size: 30px;
-        margin: 24px 0;
+        padding: 0 0 0 15px!important;
+        font-size: 28px!important;
+        margin: 24px 0!important;
     }
 </style>

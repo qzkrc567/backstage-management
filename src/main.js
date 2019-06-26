@@ -33,7 +33,7 @@ Vue.config.productionTip = false;
 Vue.use(iView);
 Vue.use(VueResource);
 
-Vue.prototype.$baseUrl = 'http://192.168.0.128:8080';
+Vue.prototype.$baseUrl = 'http://118.24.159.197:8080';
 Vue.prototype.$md5 = md5;
 Vue.prototype.$cookie =cookie;
 Vue.prototype.$dateformat =dateformat;

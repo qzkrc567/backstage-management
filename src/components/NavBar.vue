@@ -36,14 +36,14 @@
       <div class="sidebar-scroll" style="position: relative">
         <nav>
           <ul class="nav">
-            <li v-if="role===0||role===1"><router-link :to="{path:'/'}" class="active"><i class="lnr lnr-home"></i> <span>首页</span></router-link></li>
+            <li v-if="role===0||role===1"><router-link :to="{path:'/index'}" class="active"><i class="lnr lnr-home"></i> <span>首页</span></router-link></li>
             <li v-if="role===0||role===1">
               <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>订单管理</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
               <div id="subPages" class="collapse ">
                 <ul class="nav">
                   <li><router-link :to="{path:'/order', query:{order_type: 'normal'}}"  class="">正常订单</router-link></li>
                   <li><router-link :to="{path:'/order', query:{order_type: 'abnormal'}}"  class="">异常订单</router-link></li>
-                  <li><router-link :to="{path:'/order', query:{order_type: 'history'}}"  class="">历史订单</router-link></li>
+                  <li><router-link :to="{path:'/order', query:{order_type: 'history'}}"  class="">全部订单</router-link></li>
                 </ul>
               </div>
             </li>

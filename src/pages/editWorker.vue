@@ -128,7 +128,7 @@ export default {
         {
           id: this.workerInfo.id,
           name: this.workerInfo.name,
-          passwd: this.workerInfo.passwd,
+          passwd: this.$md5(this.workerInfo.passwd),
           role: this.workerInfo.role,
           phone: this.workerInfo.phone,
           email: this.workerInfo.email
